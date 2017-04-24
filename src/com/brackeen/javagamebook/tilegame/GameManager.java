@@ -388,7 +388,7 @@ public class GameManager extends GameCore {
         else if (collisionSprite instanceof Creature) {
             Creature badguy = (Creature)collisionSprite;
             if (canKill) {
-                // kill the badguy and make player bounce
+                // kill the enemy and make player bounce
                 soundManager.play(boopSound);
                 badguy.setState(Creature.STATE_DYING);
                 player.setY(badguy.getY() - player.getHeight());
@@ -403,7 +403,7 @@ public class GameManager extends GameCore {
 
 
     /**
-        Gives the player the speicifed power up and removes it
+        Gives the player the specified power up and removes it
         from the map.
     */
     public void acquirePowerUp(PowerUp powerUp) {
@@ -426,5 +426,4 @@ public class GameManager extends GameCore {
             map = resourceManager.loadNextMap();
         }
     }
-
 }
