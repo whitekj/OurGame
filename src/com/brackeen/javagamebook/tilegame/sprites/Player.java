@@ -7,9 +7,9 @@ import com.brackeen.javagamebook.graphics.Animation;
 */
 public class Player extends Creature {
 
-    private static final float JUMP_SPEED = -.88f;
-    private static final float WALLJUMP_SPEED = -.90f;    
-    private static final float DOUBLEJUMP_SPEED = -.66f;
+    private static final float JUMP_SPEED = -.90f;
+    private static final float WALLJUMP_SPEED = -.80f;    
+    private static final float DOUBLEJUMP_SPEED = -.60f;
     private static final float CLING_SPEED = .01f;
 
     private boolean onGround;
@@ -29,7 +29,7 @@ public class Player extends Creature {
     @Override
     public void collideHorizontal() {
         setVelocityX(0);
-        //Walljump mechanics
+        //Wall jump mechanics
         if (!onGround && getVelocityY() >= 0) {
         	onWall = true;
         	setVelocityY(CLING_SPEED);
@@ -79,8 +79,8 @@ public class Player extends Creature {
     	}
     }
     
-    public void duck(boolean shouldDuck) {
-    	if (shouldDuck) {
+    public void duck(boolean isDucking) {
+    	if (isDucking) {
     		//Change sprite
     	}
     	else {
