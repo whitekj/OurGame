@@ -1,5 +1,7 @@
 package com.brackeen.javagamebook.tilegame.sprites;
 
+import java.lang.reflect.Constructor;
+
 import com.brackeen.javagamebook.graphics.Animation;
 
 /**
@@ -14,13 +16,24 @@ public class Player extends Creature {
 
     private boolean onGround;
     private boolean onWall; //True if player is holding against wall
+    private boolean ducking;
     private boolean canWallJump; //True if ability is unlocked
     private boolean canDoubleJump; //True if ability is unlocked
     private boolean doubleJumped; //True if player already double jumped
+    
+    private Animation walkingLeft;
+    private Animation walkingRight;
+    private Animation duckingLeft;
+    private Animation duckingRight;
 
-    public Player(Animation left, Animation right,
-        Animation deadLeft, Animation deadRight) {
+    public Player(Animation left, Animation right, Animation deadLeft, Animation deadRight, 
+    		Animation duckingLeft, Animation duckingRight, Animation walkingLeft, Animation walkingRight) {
         super(left, right, deadLeft, deadRight);
+        this.duckingLeft = duckingLeft;
+        this.duckingRight = duckingRight;
+        this.walkingLeft = walkingLeft;
+        this.walkingRight = walkingRight;
+        ducking = false;
         doubleJumped = false;
         canWallJump = true; //Change to false later
         canDoubleJump = true; //Change to false later
@@ -64,6 +77,13 @@ public class Player extends Creature {
         if forceJump is true.
     */
     public void jump(boolean forceJump) {
+    	ducking = false;
+    	if (anim == duckingLeft) {
+    		anim = left;
+    	}
+    	if (anim == duckingRight) {
+    		anim = right;
+    	}
     	if (onGround || forceJump) {
     		doubleJumped = false;
     		onGround = false;
@@ -80,12 +100,15 @@ public class Player extends Creature {
     }
     
     public void duck(boolean isDucking) {
-    	if (isDucking) {
-    		//Change sprite
+    	if (onGround) {
+    		ducking = isDucking;
     	}
     	else {
-    		//Change sprite back
+    		ducking = false;
     	}
+    }
+    public boolean isDucking() {
+    	return ducking;
     }
     
     @Override
@@ -108,5 +131,82 @@ public class Player extends Creature {
     
     public void setCanDoubleJump(boolean b) {
     	canDoubleJump = b;
+    }
+    
+    @Override
+    public Object clone() {
+        // use reflection to create the correct subclass
+        Constructor constructor = getClass().getConstructors()[0];
+        try {
+            return constructor.newInstance(new Object[] {
+                (Animation)left.clone(),
+                (Animation)right.clone(),
+                (Animation)deadLeft.clone(),
+                (Animation)deadRight.clone(),
+                (Animation)duckingLeft.clone(),
+                (Animation)duckingRight.clone(),
+                (Animation)walkingLeft.clone(),
+                (Animation)walkingRight.clone()
+            });
+        }
+        catch (Exception ex) {
+            // should never happen
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
+    
+    @Override
+    public void update(long elapsedTime) {
+        // select the correct Animation
+        Animation newAnim = anim;
+        if (getVelocityX() < 0) {
+        	if (onGround ) {
+        		newAnim = walkingLeft;
+        	}
+        	else {
+        		newAnim = left;
+        	}
+        }
+        else if (getVelocityX() > 0) {
+        	if (onGround ) {
+        		newAnim = walkingRight;
+        	}
+        	else {
+        		newAnim = right;
+        	}
+        }
+        if (state == STATE_DYING) {
+        	ducking = false;
+        	if (newAnim == left || newAnim == walkingLeft) {
+        		newAnim = deadLeft;
+        	}
+        	else if (newAnim == right  || newAnim == walkingRight) {
+        		newAnim = deadRight;
+        	}
+        }
+        else if (isDucking()) {
+        	if (newAnim == left || newAnim == walkingLeft) {
+        		newAnim = duckingLeft;
+        	}
+        	else if (newAnim == right  || newAnim == walkingRight) {
+        		newAnim = duckingRight;
+        	}
+        }
+        // update the Animation
+        if (anim != newAnim) {
+            anim = newAnim;
+            anim.start();
+        }
+        else {
+            anim.update(elapsedTime);
+        }
+
+        // update to "dead" state
+        stateTime += elapsedTime;
+        if (state == STATE_DYING && stateTime >= Creature.DIE_TIME) {
+            setState(STATE_DEAD);
+        }
     }
 }

@@ -80,6 +80,10 @@ public class TileMapRenderer {
     {
         Sprite player = map.getPlayer();
         int mapWidth = tilesToPixels(map.getWidth());
+        
+        //new
+        int mapHeight = tilesToPixels(map.getHeight());
+        //end new
 
         // get the scrolling position of the map
         // based on player's position
@@ -88,6 +92,13 @@ public class TileMapRenderer {
         offsetX = Math.min(offsetX, 0);
         offsetX = Math.max(offsetX, screenWidth - mapWidth);
 
+        //new 
+        int offSetY = screenHeight / 2 - 
+        		Math.round(player.getY()) - TILE_SIZE;
+        offSetY= Math.min(offSetY, 0);
+        offSetY= Math.max(offSetY, screenHeight - mapHeight);
+        //end new
+        
         // get the y offset to draw all sprites and tiles
         int offsetY = screenHeight -
             tilesToPixels(map.getHeight());
@@ -105,11 +116,23 @@ public class TileMapRenderer {
             int x = offsetX *
                 (screenWidth - background.getWidth(null)) /
                 (screenWidth - mapWidth);
-            int y = screenHeight - background.getHeight(null);
-
+            //int y = screenHeight - background.getHeight(null);
+            
+            //new
+            int y = offSetY *
+            		(screenHeight - background.getHeight(null)) /
+            		(screenHeight - mapHeight);
+            //endnew
+            
             g.drawImage(background, x, y, null);
         }
-
+        
+        /*new
+         * Below the offsetY is changed to offSetY for parralax upwards
+         * 
+         */
+        
+        
         // draw the visible tiles
         int firstTileX = pixelsToTiles(-offsetX);
         int lastTileX = firstTileX +
@@ -120,7 +143,7 @@ public class TileMapRenderer {
                 if (image != null) {
                     g.drawImage(image,
                         tilesToPixels(x) + offsetX,
-                        tilesToPixels(y) + offsetY,
+                        tilesToPixels(y) + offSetY,
                         null);
                 }
             }
@@ -129,7 +152,7 @@ public class TileMapRenderer {
         // draw player
         g.drawImage(player.getImage(),
             Math.round(player.getX()) + offsetX,
-            Math.round(player.getY()) + offsetY,
+            Math.round(player.getY()) + offSetY,
             null);
 
         // draw sprites
@@ -137,7 +160,7 @@ public class TileMapRenderer {
         while (i.hasNext()) {
             Sprite sprite = (Sprite)i.next();
             int x = Math.round(sprite.getX()) + offsetX;
-            int y = Math.round(sprite.getY()) + offsetY;
+            int y = Math.round(sprite.getY()) + offSetY;
             g.drawImage(sprite.getImage(), x, y, null);
 
             // wake up the creature when it's on screen
@@ -147,6 +170,8 @@ public class TileMapRenderer {
                 ((Creature)sprite).wakeUp();
             }
         }
+        
+        //end of changes to offSetY
     }
 
 }
