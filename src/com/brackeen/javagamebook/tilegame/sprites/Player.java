@@ -21,14 +21,18 @@ public class Player extends Creature {
     private boolean canDoubleJump; //True if ability is unlocked
     private boolean doubleJumped; //True if player already double jumped
     
+    private Animation walkingLeft;
+    private Animation walkingRight;
     private Animation duckingLeft;
     private Animation duckingRight;
 
-    public Player(Animation left, Animation right, 
-    		Animation deadLeft, Animation deadRight, Animation duckingLeft, Animation duckingRight) {
+    public Player(Animation left, Animation right, Animation deadLeft, Animation deadRight, 
+    		Animation duckingLeft, Animation duckingRight, Animation walkingLeft, Animation walkingRight) {
         super(left, right, deadLeft, deadRight);
         this.duckingLeft = duckingLeft;
         this.duckingRight = duckingRight;
+        this.walkingLeft = walkingLeft;
+        this.walkingRight = walkingRight;
         ducking = false;
         doubleJumped = false;
         canWallJump = true; //Change to false later
@@ -74,6 +78,12 @@ public class Player extends Creature {
     */
     public void jump(boolean forceJump) {
     	ducking = false;
+    	if (anim == duckingLeft) {
+    		anim = left;
+    	}
+    	if (anim == duckingRight) {
+    		anim = right;
+    	}
     	if (onGround || forceJump) {
     		doubleJumped = false;
     		onGround = false;
@@ -90,7 +100,6 @@ public class Player extends Creature {
     }
     
     public void duck(boolean isDucking) {
-    	ducking = isDucking;
     	if (onGround) {
     		ducking = isDucking;
     	}
@@ -135,7 +144,9 @@ public class Player extends Creature {
                 (Animation)deadLeft.clone(),
                 (Animation)deadRight.clone(),
                 (Animation)duckingLeft.clone(),
-                (Animation)duckingRight.clone()
+                (Animation)duckingRight.clone(),
+                (Animation)walkingLeft.clone(),
+                (Animation)walkingRight.clone()
             });
         }
         catch (Exception ex) {
@@ -151,22 +162,37 @@ public class Player extends Creature {
         // select the correct Animation
         Animation newAnim = anim;
         if (getVelocityX() < 0) {
-            newAnim = left;
+        	if (onGround ) {
+        		newAnim = walkingLeft;
+        	}
+        	else {
+        		newAnim = left;
+        	}
         }
         else if (getVelocityX() > 0) {
-            newAnim = right;
+        	if (onGround ) {
+        		newAnim = walkingRight;
+        	}
+        	else {
+        		newAnim = right;
+        	}
         }
-        if (state == STATE_DYING && newAnim == left) {
-            newAnim = deadLeft;
+        if (state == STATE_DYING) {
+        	ducking = false;
+        	if (newAnim == left || newAnim == walkingLeft) {
+        		newAnim = deadLeft;
+        	}
+        	else if (newAnim == right  || newAnim == walkingRight) {
+        		newAnim = deadRight;
+        	}
         }
-        else if (state == STATE_DYING && newAnim == right) {
-            newAnim = deadRight;
-        }
-        else if (isDucking() && newAnim == left) {
-            newAnim = duckingLeft;
-        }
-        else if (isDucking() && newAnim == right) {
-            newAnim = duckingRight;
+        else if (isDucking()) {
+        	if (newAnim == left || newAnim == walkingLeft) {
+        		newAnim = duckingLeft;
+        	}
+        	else if (newAnim == right  || newAnim == walkingRight) {
+        		newAnim = duckingRight;
+        	}
         }
         // update the Animation
         if (anim != newAnim) {

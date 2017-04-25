@@ -266,10 +266,10 @@ public class ResourceManager {
         //images[0][2], [1][2] have ducking sprite
 
         // Player sprite/animations
-        Animation[] playerAnim = new Animation[6]; //Array of 6 animations
+        Animation[] playerAnim = new Animation[8]; //Array of 8 animations
        
         for (int i=0; i<4; i++) {
-            playerAnim[i] = createPlayerAnim(images[i][0], images[i][1]);
+            playerAnim[i] = createPlayerAnim(images[i][0], images[i][0]);
             //playerAnim[0] will have regular sprites
             //1 will have right-facing
             //2 and 3 will have dead left/right
@@ -277,7 +277,11 @@ public class ResourceManager {
         //ducking sprites
         playerAnim[4] = createPlayerAnim(images[0][2], images[0][2]);
         playerAnim[5] = createPlayerAnim(images[1][2], images[1][2]);
-        playerSprite = new Player(playerAnim[0], playerAnim[1], playerAnim[2], playerAnim[3], playerAnim[4], playerAnim[5]);
+        //walking sprites
+        playerAnim[6] = createPlayerAnim(images[0][0], images[0][1]);
+        playerAnim[7] = createPlayerAnim(images[1][0], images[1][1]);
+        playerSprite = new Player(playerAnim[0], playerAnim[1], playerAnim[2], playerAnim[3], 
+        		playerAnim[4], playerAnim[5], playerAnim[6], playerAnim[7]);
         
         
         
