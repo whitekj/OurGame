@@ -74,14 +74,14 @@ public class GameManager extends GameCore {
         // start music
         midiPlayer = new MidiPlayer();
         Sequence sequence =
-            midiPlayer.getSequence("sounds/music.midi");
+            midiPlayer.getSequence("sounds/stage1.mid");
         midiPlayer.play(sequence, true);
         toggleDrumPlayback();
     }
 
 
     /**
-        Closes any resurces used by the GameManager.
+        Closes any resources used by the GameManager.
     */
     public void stop() {
         super.stop();
@@ -273,7 +273,9 @@ public class GameManager extends GameCore {
             map = resourceManager.reloadMap();
             return;
         }
-
+        if (((Player) player).isDucking()) {
+        	
+        }
         // get keyboard/mouse input
         checkInput(elapsedTime);
 
@@ -426,4 +428,6 @@ public class GameManager extends GameCore {
             map = resourceManager.loadNextMap();
         }
     }
+    
+    
 }

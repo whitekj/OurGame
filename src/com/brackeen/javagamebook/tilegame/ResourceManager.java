@@ -19,6 +19,7 @@ public class ResourceManager {
 
     private ArrayList tiles;
     private int currentMap;
+    private int numMaps; //number of maps per world
     private GraphicsConfiguration gc;
 
     // host sprites used for cloning
@@ -38,6 +39,7 @@ public class ResourceManager {
         loadTileImages();
         loadCreatureSprites();
         loadPowerUpSprites();
+        numMaps = 2; //Change to add more maps to a world
     }
 
 
@@ -93,8 +95,8 @@ public class ResourceManager {
                     "maps/map" + currentMap + ".txt");
             }
             catch (IOException ex) {
-                if (currentMap == 1) {
-                    // no maps to load!
+                if (currentMap == (numMaps-1)) {
+                    //Done with world, move to next or return null if world 3
                     return null;
                 }
                 currentMap = 0;
@@ -259,39 +261,46 @@ public class ResourceManager {
             // right-facing "dead" images
             images[3][i] = getFlippedImage(images[1][i]);
         }
+        //images[0][0], [0][1] have left-facing anim
+        //images[1][0], [1][1] have left-facing anim
+        //images[0][2], [1][2] have ducking sprite
 
-        // create creature animations
-        Animation[] playerAnim = new Animation[4];
+        // Player sprite/animations
+        Animation[] playerAnim = new Animation[6]; //Array of 6 animations
+       
+        for (int i=0; i<4; i++) {
+            playerAnim[i] = createPlayerAnim(images[i][0], images[i][1]);
+            //playerAnim[0] will have regular sprites
+            //1 will have right-facing
+            //2 and 3 will have dead left/right
+        }
+        //ducking sprites
+        playerAnim[4] = createPlayerAnim(images[0][2], images[0][2]);
+        playerAnim[5] = createPlayerAnim(images[1][2], images[1][2]);
+        playerSprite = new Player(playerAnim[0], playerAnim[1], playerAnim[2], playerAnim[3], playerAnim[4], playerAnim[5]);
+        
+        
+        
+        
+        
+        
+        //Creature sprite/animations
         Animation[] flyAnim = new Animation[4];
         Animation[] grubAnim = new Animation[4];
         for (int i=0; i<4; i++) {
-            playerAnim[i] = createPlayerAnim(
-                images[i][0], images[i][1], images[i][2]);
-            flyAnim[i] = createFlyAnim(
-                images[i][3], images[i][4], images[i][5]);
-            grubAnim[i] = createGrubAnim(
-                images[i][6], images[i][7]);
+        	flyAnim[i] = createFlyAnim(images[i][3], images[i][4], images[i][5]);
+            grubAnim[i] = createGrubAnim(images[i][6], images[i][7]);
         }
-
-        // create creature sprites
-        playerSprite = new Player(playerAnim[0], playerAnim[1],
-            playerAnim[2], playerAnim[3]);
-        flySprite = new Fly(flyAnim[0], flyAnim[1],
-            flyAnim[2], flyAnim[3]);
-        grubSprite = new Grub(grubAnim[0], grubAnim[1],
-            grubAnim[2], grubAnim[3]);
+        flySprite = new Fly(flyAnim[0], flyAnim[1], flyAnim[2], flyAnim[3]);
+        grubSprite = new Grub(grubAnim[0], grubAnim[1], grubAnim[2], grubAnim[3]);
     }
 
 
     private Animation createPlayerAnim(Image player1,
-        Image player2, Image player3)
+        Image player2)
     {
         Animation anim = new Animation();
-        anim.addFrame(player1, 250);
-        anim.addFrame(player2, 150);
         anim.addFrame(player1, 150);
-        anim.addFrame(player2, 150);
-        anim.addFrame(player3, 200);
         anim.addFrame(player2, 150);
         return anim;
     }
