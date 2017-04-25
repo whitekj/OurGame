@@ -19,6 +19,7 @@ public class MidiPlayer implements MetaEventListener {
         try {
             sequencer = MidiSystem.getSequencer();
             sequencer.open();
+            sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
             sequencer.addMetaEventListener(this);
         }
         catch ( MidiUnavailableException ex) {

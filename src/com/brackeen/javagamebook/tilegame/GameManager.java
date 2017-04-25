@@ -217,14 +217,6 @@ public class GameManager extends GameCore {
             return false;
         }
 
-        // if one of the Sprites is a dead Creature, return false
-        if (s1 instanceof Creature && !((Creature)s1).isAlive()) {
-            return false;
-        }
-        if (s2 instanceof Creature && !((Creature)s2).isAlive()) {
-            return false;
-        }
-
         // get the pixel location of the Sprites
         int s1x = Math.round(s1.getX());
         int s1y = Math.round(s1.getY());
@@ -246,7 +238,7 @@ public class GameManager extends GameCore {
     public Sprite getSpriteCollision(Sprite sprite) {
 
         // run through the list of Sprites
-        Iterator i = map.getSprites();
+        Iterator<Sprite> i = (Iterator<Sprite>)map.getSprites();
         while (i.hasNext()) {
             Sprite otherSprite = (Sprite)i.next();
             if (isCollision(sprite, otherSprite)) {
@@ -254,7 +246,6 @@ public class GameManager extends GameCore {
                 return otherSprite;
             }
         }
-
         // no collision found
         return null;
     }
@@ -265,11 +256,11 @@ public class GameManager extends GameCore {
         in the current map.
     */
     public void update(long elapsedTime) {
-        Creature player = (Creature)map.getPlayer();
+        Player player = (Player)map.getPlayer();
 
 
         // player is dead! start map over
-        if (player.getState() == Creature.STATE_DEAD) {
+        if (player.getState() == Player.STATE_DEAD) {
             map = resourceManager.reloadMap();
             return;
         }
@@ -280,126 +271,93 @@ public class GameManager extends GameCore {
         checkInput(elapsedTime);
 
         // update player
-        updateCreature(player, elapsedTime);
+        updatePlayer(player, elapsedTime);
         player.update(elapsedTime);
-
-        // update other sprites
-        Iterator i = map.getSprites();
-        while (i.hasNext()) {
-            Sprite sprite = (Sprite)i.next();
-            if (sprite instanceof Creature) {
-                Creature creature = (Creature)sprite;
-                if (creature.getState() == Creature.STATE_DEAD) {
-                    i.remove();
-                }
-                else {
-                    updateCreature(creature, elapsedTime);
-                }
-            }
-            // normal update
-            sprite.update(elapsedTime);
-        }
     }
 
 
     /**
-        Updates the creature, applying gravity for creatures that
-        aren't flying, and checks collisions.
+        Updates the player, and checks collisions.
     */
-    private void updateCreature(Creature creature, long elapsedTime) {
+    private void updatePlayer(Player player, long elapsedTime) {
 
         // apply gravity
-        if (!creature.isFlying()) {
-            creature.setVelocityY(creature.getVelocityY() +
-                GRAVITY * elapsedTime);
-        }
-
+    	player.setVelocityY(player.getVelocityY() + GRAVITY * elapsedTime);
         // change x
-        float dx = creature.getVelocityX();
-        float oldX = creature.getX();
+        float dx = player.getVelocityX();
+        float oldX = player.getX();
         float newX = oldX + dx * elapsedTime;
         Point tile =
-            getTileCollision(creature, newX, creature.getY());
+            getTileCollision(player, newX, player.getY());
         if (tile == null) {
-            creature.setX(newX);
+        	player.setX(newX);
         }
         else {
             // line up with the tile boundary
             if (dx > 0) {
-                creature.setX(
+            	player.setX(
                     TileMapRenderer.tilesToPixels(tile.x) -
-                    creature.getWidth());
+                    player.getWidth());
             }
             else if (dx < 0) {
-                creature.setX(
+            	player.setX(
                     TileMapRenderer.tilesToPixels(tile.x + 1));
             }
-            creature.collideHorizontal();
+            player.collideHorizontal();
             
         }
-        if (creature instanceof Player) {
-            checkPlayerCollision((Player)creature, false);
+        if (player instanceof Player) {
+            checkPlayerCollision((Player)player);
         }
 
         // change y
-        float dy = creature.getVelocityY();
-        float oldY = creature.getY();
+        float dy = player.getVelocityY();
+        float oldY = player.getY();
         float newY = oldY + dy * elapsedTime;
-        tile = getTileCollision(creature, creature.getX(), newY);
+        tile = getTileCollision(player, player.getX(), newY);
         if (tile == null) {
-            creature.setY(newY);
+        	player.setY(newY);
         }
         else {
             // line up with the tile boundary
             if (dy > 0) {
-                creature.setY(
+            	player.setY(
                     TileMapRenderer.tilesToPixels(tile.y) -
-                    creature.getHeight());
+                    player.getHeight());
             }
             else if (dy < 0) {
-                creature.setY(
+            	player.setY(
                     TileMapRenderer.tilesToPixels(tile.y + 1));
             }
-            creature.collideVertical();
+            player.collideVertical();
         }
-        if (creature instanceof Player) {
-            boolean canKill = (oldY < creature.getY());
-            checkPlayerCollision((Player)creature, canKill);
+        if (player instanceof Player) {
+            checkPlayerCollision((Player)player);
         }
 
     }
 
 
     /**
-        Checks for Player collision with other Sprites. If
-        canKill is true, collisions with Creatures will kill
-        them.
+        Checks for Player collision with other Sprites
     */
-    public void checkPlayerCollision(Player player,
-        boolean canKill)
+    public void checkPlayerCollision(Player player)
     {
         if (!player.isAlive()) {
             return;
         }
-
         // check for player collision with other sprites
         Sprite collisionSprite = getSpriteCollision(player);
         if (collisionSprite instanceof PowerUp) {
             acquirePowerUp((PowerUp)collisionSprite);
         }
-        else if (collisionSprite instanceof Creature) {
-            Creature badguy = (Creature)collisionSprite;
-            if (canKill) {
-                // kill the enemy and make player bounce
-                soundManager.play(boopSound);
-                badguy.setState(Creature.STATE_DYING);
-                player.setY(badguy.getY() - player.getHeight());
-                player.jump(true);
-            }
-            else {
-                // player dies!
-                player.setState(Creature.STATE_DYING);
-            }
+        else if (collisionSprite instanceof Spike) {
+            Spike spike = (Spike)collisionSprite;
+            player.setState(Player.STATE_DYING);
+        }
+    	else if (collisionSprite instanceof Saw) {
+    		Saw saw = (Saw)collisionSprite;
+    		player.setState(Player.STATE_DYING);
         }
     }
 
