@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.Iterator;
 
 import com.brackeen.javagamebook.graphics.Sprite;
-import com.brackeen.javagamebook.tilegame.sprites.Creature;
 
 /**
     The TileMapRenderer class draws a TileMap on the screen.
@@ -162,13 +161,6 @@ public class TileMapRenderer {
             int x = Math.round(sprite.getX()) + offsetX;
             int y = Math.round(sprite.getY()) + offSetY;
             g.drawImage(sprite.getImage(), x, y, null);
-
-            // wake up the creature when it's on screen
-            if (sprite instanceof Creature &&
-                x >= 0 && x < screenWidth)
-            {
-                ((Creature)sprite).wakeUp();
-            }
         }
         
         //end of changes to offSetY

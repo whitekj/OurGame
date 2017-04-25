@@ -27,8 +27,8 @@ public class ResourceManager {
     private Sprite musicSprite;
     private Sprite coinSprite;
     private Sprite goalSprite;
-    private Sprite grubSprite;
-    private Sprite flySprite;
+    private Sprite spikeSprite;
+    private Sprite sawSprite;
 
     /**
         Creates a new ResourceManager with the specified
@@ -96,7 +96,7 @@ public class ResourceManager {
             }
             catch (IOException ex) {
                 if (currentMap == (numMaps-1)) {
-                    //Done with world, move to next or return null if world 3
+                    //Done with world, move to next or return null if last world
                     return null;
                 }
                 currentMap = 0;
@@ -170,19 +170,26 @@ public class ResourceManager {
                     addSprite(newMap, goalSprite, x, y);
                 }
                 else if (ch == '1') {
-                    addSprite(newMap, grubSprite, x, y);
+                    addSprite(newMap, sawSprite, x, y);
                 }
                 else if (ch == '2') {
-                    addSprite(newMap, flySprite, x, y);
+                    addSprite(newMap, spikeSprite, x, y);
+                }
+                else if (ch == '@') {
+                	Sprite player = (Sprite)playerSprite.clone();
+                    player.setX(TileMapRenderer.tilesToPixels(x));
+                    player.setY(TileMapRenderer.tilesToPixels(y));
+                    newMap.setPlayer(player);
                 }
             }
         }
 
-        // add the player to the map
+        /* add the player to the map
         Sprite player = (Sprite)playerSprite.clone();
         player.setX(TileMapRenderer.tilesToPixels(3));
         player.setY(0);
         newMap.setPlayer(player);
+        */
 
         return newMap;
     }
@@ -243,11 +250,11 @@ public class ResourceManager {
             loadImage("player1.png"),
             loadImage("player2.png"),
             loadImage("player3.png"),
-            loadImage("fly1.png"),
-            loadImage("fly2.png"),
-            loadImage("fly3.png"),
-            loadImage("grub1.png"),
-            loadImage("grub2.png"),
+            loadImage("spike.png"),
+            loadImage("saw.png"),
+            loadImage("spike2.png"),
+            loadImage("saw2.png"),
+            loadImage("lightning.png"),
         };
 
         images[1] = new Image[images[0].length];
@@ -289,14 +296,14 @@ public class ResourceManager {
         
         
         //Creature sprite/animations
-        Animation[] flyAnim = new Animation[4];
-        Animation[] grubAnim = new Animation[4];
-        for (int i=0; i<4; i++) {
-        	flyAnim[i] = createFlyAnim(images[i][3], images[i][4], images[i][5]);
-            grubAnim[i] = createGrubAnim(images[i][6], images[i][7]);
+        Animation[] spikeAnim = new Animation[4];
+        Animation[] sawAnim = new Animation[4];
+        for (int i=0; i<2; i++) {
+        	spikeAnim[i] = createAnim(images[i][3]);
+            sawAnim[i] = createAnim(images[i][4]);
         }
-        flySprite = new Fly(flyAnim[0], flyAnim[1], flyAnim[2], flyAnim[3]);
-        grubSprite = new Grub(grubAnim[0], grubAnim[1], grubAnim[2], grubAnim[3]);
+        spikeSprite = new Spike(spikeAnim[0], spikeAnim[1]);
+        sawSprite = new Saw(sawAnim[0], sawAnim[1]);
     }
 
 
@@ -304,28 +311,16 @@ public class ResourceManager {
         Image player2)
     {
         Animation anim = new Animation();
-        anim.addFrame(player1, 150);
         anim.addFrame(player2, 150);
+        anim.addFrame(player1, 150);
         return anim;
     }
 
 
-    private Animation createFlyAnim(Image img1, Image img2,
-        Image img3)
+    private Animation createAnim(Image img)
     {
         Animation anim = new Animation();
-        anim.addFrame(img1, 50);
-        anim.addFrame(img2, 50);
-        anim.addFrame(img3, 50);
-        anim.addFrame(img2, 50);
-        return anim;
-    }
-
-
-    private Animation createGrubAnim(Image img1, Image img2) {
-        Animation anim = new Animation();
-        anim.addFrame(img1, 250);
-        anim.addFrame(img2, 250);
+        anim.addFrame(img, 50);
         return anim;
     }
 
