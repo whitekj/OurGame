@@ -17,24 +17,23 @@
 #   5       Saw (Half/Right)
 #   6       Saw Handle(Up/Down)
 #   7       Saw Handle(Left/Right)
-# Introduction Training Level
                              
+I   *                                              I
+I  III                                           17I
+I                                                  I
+I                                                  I
+I                                     I            I
 I                                                  I
 I                                                  I
 I                                                  I
+IIIIIIII           I                               I
+>                              IIII       IIII     I
+>                                                  I
+>                                                  I
+IIIIIIII                                           I
 I                                                  I
-I                                                  I
-I          ^^                2          *          I
-I      IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-I                                                  I
-I                                                  I
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII      I
-I                                                  I
-I                                                  I
-I    IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-I                                                  I
-I                                                  I
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII       I
-I                                                  I
-I @                                                I 
+I                                             II   I
+I                                             II   I
+I                                             II   I
+I  @   ^^^^^^^    ^^^^^^^        2        2   II   I 
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

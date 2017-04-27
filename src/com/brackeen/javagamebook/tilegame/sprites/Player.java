@@ -21,10 +21,11 @@ public class Player extends Sprite {
 		this.duckingRight = duckingRight;
 		this.walkingLeft = walkingLeft;
 		this.walkingRight = walkingRight;
+		state = 0;
 		ducking = false;
 		doubleJumped = false;
-		canWallJump = true; //Change to false later
-		canDoubleJump = true; //Change to false later
+		canWallJump = false; 
+		canDoubleJump = false; 
 	}
 
 	public void collideHorizontal() {
@@ -259,7 +260,6 @@ public class Player extends Sprite {
 	public static final int STATE_NORMAL = 0;
 	public static final int STATE_DYING = 1;
 	public static final int STATE_DEAD = 2;
-
 	private boolean onGround;
 	private boolean onWall; //True if player is holding against wall
 	private boolean ducking; 

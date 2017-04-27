@@ -28,11 +28,25 @@ public class ResourceManager {
     private Sprite playerSprite;
     private Sprite lightningSprite;
     private Sprite goalSprite;
-    private Sprite spikeSprite;
-    private Sprite sawSprite;
-    private Sprite spikeBloodySprite;
-    private Sprite sawBloodySprite;
-    private Sprite spikeInvisibleSprite;
+    private Sprite spikeUp;
+    private Sprite spikeDown;
+    private Sprite spikeLeft;
+    private Sprite spikeRight;
+    private Sprite spikeUpBloody;
+    private Sprite spikeDownBloody;
+    private Sprite spikeLeftBloody;
+    private Sprite spikeRightBloody;
+    private Sprite spikeInvisible;
+    private Sprite sawFull;
+    private Sprite sawFullBloody;
+    private Sprite sawHalfUp;
+    private Sprite sawHalfDown;
+    private Sprite sawHalfLeft;
+    private Sprite sawHalfRight;
+    private Sprite sawHalfUpBloody;
+    private Sprite sawHalfDownBloody;
+    private Sprite sawHalfLeftBloody;
+    private Sprite sawHalfRightBloody;
 
     /**
         Creates a new ResourceManager with the specified
@@ -102,7 +116,7 @@ public class ResourceManager {
             		return null;
             	}
             	currentWorld++;
-            	currentMap = 0;
+            	currentMap = 1;
         	}
         	else { 
         		currentMap++;
@@ -164,25 +178,17 @@ public class ResourceManager {
             String line = lines.get(y);
             for (int x=0; x<line.length(); x++) {
                 char ch = line.charAt(x);
-
-                // check if the char represents tile A, B, C etc.
-                int tile = ch - 'A';
-                if (tile >= 0 && tile < tiles.size()) {
-                    newMap.setTile(x, y, tiles.get(tile));
+                if (ch == 'I') {
+                    newMap.setTile(x, y, tiles.get(currentWorld-1));
                 }
-
-                // check if the char represents a sprite
-                else if (ch == 'o') {
+                else if (ch == '!') {
                     addSprite(newMap, lightningSprite, x, y);
                 }
                 else if (ch == '*') {
                     addSprite(newMap, goalSprite, x, y);
                 }
-                else if (ch == '1') {
-                    addSprite(newMap, sawSprite, x, y);
-                }
-                else if (ch == '2') {
-                    addSprite(newMap, spikeSprite, x, y);
+                else if (ch == 'P') {
+                    addSprite(newMap, spikeInvisible, x, y);
                 }
                 else if (ch == '@') {
                 	Sprite player = (Sprite)playerSprite.clone();
@@ -190,16 +196,66 @@ public class ResourceManager {
                     player.setY(TileMapRenderer.tilesToPixels(y));
                     newMap.setPlayer(player);
                 }
+                else if (currentWorld!=2) {
+                	if (ch == '^') {
+                        addSprite(newMap, spikeUp, x, y);
+                    }
+                    else if (ch == 'V') {
+                        addSprite(newMap, spikeDown, x, y);
+                    }
+                    else if (ch == '<') {
+                        addSprite(newMap, spikeLeft, x, y);
+                    }
+                    else if (ch == '>') {
+                        addSprite(newMap, spikeRight, x, y);
+                    }
+                    else if (ch == '1') {
+                        addSprite(newMap, sawFull, x, y);
+                    }
+                    else if (ch == '2') {
+                        addSprite(newMap, sawHalfUp, x, y);
+                    }
+                    else if (ch == '3') {
+                        addSprite(newMap, sawHalfDown, x, y);
+                    }
+                    else if (ch == '4') {
+                        addSprite(newMap, sawHalfLeft, x, y);
+                    }
+                    else if (ch == '5') {
+                        addSprite(newMap, sawHalfRight, x, y);
+                    }
+                }
+                else {
+                	if (ch == '^') {
+                        addSprite(newMap, spikeUpBloody, x, y);
+                    }
+                    else if (ch == 'V') {
+                        addSprite(newMap, spikeDownBloody, x, y);
+                    }
+                    else if (ch == '<') {
+                        addSprite(newMap, spikeLeftBloody, x, y);
+                    }
+                    else if (ch == '>') {
+                        addSprite(newMap, spikeRightBloody, x, y);
+                    }
+                    else if (ch == '1') {
+                        addSprite(newMap, sawFullBloody, x, y);
+                    }
+                    else if (ch == '2') {
+                        addSprite(newMap, sawHalfUpBloody, x, y);
+                    }
+                    else if (ch == '3') {
+                        addSprite(newMap, sawHalfDownBloody, x, y);
+                    }
+                    else if (ch == '4') {
+                        addSprite(newMap, sawHalfLeftBloody, x, y);
+                    }
+                    else if (ch == '5') {
+                        addSprite(newMap, sawHalfRightBloody, x, y);
+                    }
+                }
             }
         }
-
-        /* add the player to the map
-        Sprite player = (Sprite)playerSprite.clone();
-        player.setX(TileMapRenderer.tilesToPixels(3));
-        player.setY(0);
-        newMap.setPlayer(player);
-        */
-
         return newMap;
     }
 
@@ -243,18 +299,16 @@ public class ResourceManager {
 
 
     public void loadTileImages() {
-        // keep looking for tile A,B,C, etc. this makes it
-        // easy to drop new tiles in the images/ directory
         tiles = new ArrayList<Image>();
-        char ch = 'A';
+        int n = 1;
         while (true) {
-            String name = "tile_" + ch + ".png";
+            String name = "terrain" + n + ".png";
             File file = new File("images/" + name);
             if (!file.exists()) {
                 break;
             }
             tiles.add(loadImage(name));
-            ch++;
+            n++;
         }
     }
 
@@ -268,17 +322,21 @@ public class ResourceManager {
             loadImage("player1.png"),
             loadImage("player2.png"),
             loadImage("player3.png"),
-            loadImage("lightning1.png"), //Add second lightning sprite
+            loadImage("goal.png"),
+            loadImage("lightning1.png"),
             loadImage("spike1.png"),
-            loadImage("spike2.png"),
+            loadImage("spike2.png"), //Right-facing version
             loadImage("spikeBloody1.png"),
             loadImage("spikeBloody2.png"),
-            loadImage("spikeInvisible.png"),
-            loadImage("saw1.png"),
-            loadImage("saw2.png"),
+            loadImage("spikeInvisible.png"), //Used as a pit
+            loadImage("saw1.png"), //Full saw
+            loadImage("saw2.png"), //Right-facing version
             loadImage("sawBloody1.png"),
             loadImage("sawBloody2.png"),
-            loadImage("goal.png")
+            loadImage("sawHalf1.png"), //Half saw
+            loadImage("sawHalf2.png"), //Right-facing version
+            loadImage("sawHalfBloody1.png"),
+            loadImage("sawHalfBloody2.png"),
         };
 
         images[1] = new Image[images[0].length];
@@ -306,41 +364,36 @@ public class ResourceManager {
         playerSprite = new Player(playerAnim[0], playerAnim[1], playerAnim[2], playerAnim[3], 
         		playerAnim[4], playerAnim[5], playerAnim[6], playerAnim[7]);
         
-        //Lightning/door sprites
-        Animation lightningAnim = createPowerUpAnim(images[0][3], images[0][3]); //Change this later to add animation
-        lightningSprite = new PowerUp.Lightning(lightningAnim);
-        Animation goalAnim = createPowerUpAnim(images[0][13], images[0][13]);
+        int n=3; //Used to increment slot of images array
+        //Door sprites
+        Animation goalAnim = createPowerUpAnim(images[0][n], images[0][n]);
         goalSprite = new PowerUp.Goal(goalAnim);
-        
-        //Spike sprites
-        Animation[] spikeAnim = new Animation[9];    
-        //Up
-        spikeAnim[0] = createSpikeAnim(images[0][4]);
-        //Down
-        spikeAnim[1] = createSpikeAnim(images[2][4]);
-        //Left
-        spikeAnim[2] = createSpikeAnim(images[0][5]);
-        //Right
-        spikeAnim[3] = createSpikeAnim(images[2][5]);
-        //Bloody sprites
-        spikeAnim[4] = createSpikeAnim(images[0][6]);
-        spikeAnim[5] = createSpikeAnim(images[2][6]);
-        spikeAnim[6] = createSpikeAnim(images[0][7]);
-        spikeAnim[7] = createSpikeAnim(images[2][7]);
-        //Invisible
-        spikeAnim[7] = createSpikeAnim(images[0][8]);
-        spikeSprite = new Spike(spikeAnim[0], spikeAnim[1],spikeAnim[2], spikeAnim[3]);
-        spikeBloodySprite = new Spike(spikeAnim[4], spikeAnim[5],spikeAnim[6], spikeAnim[7]);
-        spikeInvisibleSprite = new Spike(spikeAnim[8]);
-        
+        n++;
+        //Lightning sprites
+        Animation lightningAnim = createPowerUpAnim(images[0][n], images[0][n]); //Change this later to add animation
+        lightningSprite = new PowerUp.Lightning(lightningAnim);
+        n++;
+        //Spike sprites   
+        spikeUp = new Spike(createSpikeAnim(images[0][n]));
+        spikeDown = new Spike(createSpikeAnim(images[2][n++]));
+        spikeLeft = new Spike(createSpikeAnim(images[0][n]));
+        spikeRight = new Spike(createSpikeAnim(images[2][n++]));
+        spikeUpBloody = new Spike(createSpikeAnim(images[0][n]));
+        spikeDownBloody = new Spike(createSpikeAnim(images[2][n++]));
+        spikeLeftBloody = new Spike(createSpikeAnim(images[0][n]));
+        spikeRightBloody = new Spike(createSpikeAnim(images[2][n++]));
+        spikeInvisible = new Spike(createSpikeAnim(images[0][n++]));
         //Saw sprites
-        Animation[] sawAnim = new Animation[2];
-        //Normal
-        sawAnim[0] = createSawAnim(images[0][9], images[0][10]);
-        //Bloody
-        sawAnim[1] = createSawAnim(images[0][11], images[0][12]);
-        sawSprite = new Saw(sawAnim[0]);
-        sawBloodySprite = new Saw(sawAnim[1]);
+        sawFull = new Saw(createSawAnim(images[0][n], images[0][n++]));
+        sawFullBloody = new Saw(createSawAnim(images[0][n], images[0][n++]));
+        sawHalfUp = new Saw(createSawAnim(images[0][n], images[0][n]));
+        sawHalfDown = new Saw(createSawAnim(images[2][n], images[2][n++]));
+        sawHalfLeft = new Saw(createSawAnim(images[0][n], images[0][n]));
+        sawHalfRight = new Saw(createSawAnim(images[2][n], images[2][n++]));
+        sawHalfUpBloody = new Saw(createSawAnim(images[0][n], images[0][n]));
+        sawHalfDownBloody = new Saw(createSawAnim(images[2][n], images[2][n++]));
+        sawHalfLeftBloody = new Saw(createSawAnim(images[0][n], images[0][n]));
+        sawHalfRightBloody = new Saw(createSawAnim(images[2][n], images[2][n]));
     }
 
 
