@@ -17,24 +17,24 @@
 #   5       Saw (Half/Right)
 #   6       Saw Handle(Up/Down)
 #   7       Saw Handle(Left/Right)
-# Introduction Training Level
+# Teaching Double Jump Level
                              
 I                                                  I
 I                                                  I
 I                                                  I
 I                                                  I
 I                                                  I
-I          ^^                2          *          I
-I      IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+I      *                                           I
+IIIIIIIIIIIIIIII          IIIIIIIII        IIII    I
 I                                                  I
-I                                                  I
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII      I
-I                                                  I
-I                                                  I
-I    IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-I                                                  I
-I                                                  I
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII       I
-I                                                  I
-I @                                                I 
+I>                                                 I
+I>                                                 I
+I>                                                 I
+I>                                                 I
+I>                                                 I
+I>                                                 I
+I>    I                                            I
+I    <I                                            I
+I    <I                                            I
+I @  <I   22222            ^^^^^^^                 I 
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

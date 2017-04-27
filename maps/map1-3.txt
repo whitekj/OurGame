@@ -2,34 +2,38 @@
 # (Lines that start with '#' are comments)
 # The tiles are:
 #   (Space) Empty tile
-#   A..Z    Tiles A through Z
-#   @       Player
-#   !       Bonus item
+#   I       Terrain
+#   @     Player
+#   !        Lightning
 #   *       Goal
-#   1       Spike (up)
-#   2       Spike (down)
-#   3       Spike (left)
-#   4       Spike (right)
-#   5       Saw (Full)
-#   6       Saw (Half/Up)
-#   7       Saw (Half/Down)
-#   8       Saw Handle (Up/Down)
-#   9       Saw Handle (Left/Right)
-
-  
-
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-II
-II                                        
-II                                        II
-II    II                                  II       
-II    II          II                      II       
-II @  II          II                      II       
-II    II          II          II          II       
-II    II          II          II          II         
-II    II          II          II          II       
-II    II          II          II          II    II                               
-II    II          II          II          II    II        
-II    II    II    II    II    II          II    II                  
-II    II    II    II    II    II    II    II    II     *
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+#   ^       Spike (up)
+#   V       Spike (down)
+#   <       Spike (left)
+#   >       Spike (right)
+#   1       Saw (Full)
+#   2       Saw (Half/Up)
+#   3       Saw (Half/Down)
+#   4       Saw (Half/Left)
+#   5       Saw (Half/Right)
+#   6       Saw Handle(Up/Down)
+#   7       Saw Handle(Left/Right)
+                             
+I                                                  I
+I                                                  I
+I                                                  I
+I      IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII  I
+I                      II                          I
+I                      II                          I
+III                    II                     ^    I
+I                      II                   IIIIIIII
+I       II             II                   I      I
+III                    II    ^        ^     I      I
+I                      II  III      IIIIIIIII      I
+I       II             II                          I
+III                    II        2                 I
+I                      II      IIII                I
+I       II             II                    ^     I
+III                    II   IIIIIIIIIIIIIIIIII     I
+I                      II 1                        I
+I @                    II 6              *         I 
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

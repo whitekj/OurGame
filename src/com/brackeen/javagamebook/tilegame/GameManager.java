@@ -23,32 +23,6 @@ public class GameManager extends GameCore {
         new GameManager().run();
     }
 
-    // uncompressed, 44100Hz, 16-bit, mono, signed, little-endian
-    private static final AudioFormat PLAYBACK_FORMAT =
-        new AudioFormat(44100, 16, 1, true, false);
-
-    private static final int DRUM_TRACK = 1;
-
-    public static final float GRAVITY = 0.002f;
-
-    private Point pointCache = new Point();
-    private TileMap map;
-    private MidiPlayer midiPlayer;
-    private SoundManager soundManager;
-    private ResourceManager resourceManager;
-    private Sound prizeSound;
-    private Sound boopSound;
-    private InputManager inputManager;
-    private TileMapRenderer renderer;
-
-    private GameAction moveLeft;
-    private GameAction moveRight;
-    private GameAction jump;
-    private GameAction exit;
-    private GameAction duck;
-    private GameAction passGoal;
-
-
     public void init() {
         super.init();
 
@@ -61,16 +35,14 @@ public class GameManager extends GameCore {
 
         // load resources
         renderer = new TileMapRenderer();
-        renderer.setBackground(
-            resourceManager.loadImage("background.png"));
 
         // load first map
         map = resourceManager.loadNextMap();
 
         // load sounds
         soundManager = new SoundManager(PLAYBACK_FORMAT);
-        prizeSound = soundManager.getSound("sounds/prize.wav");
-        boopSound = soundManager.getSound("sounds/boop2.wav");
+        //prizeSound = soundManager.getSound("sounds/prize.wav");
+        //boopSound = soundManager.getSound("sounds/boop2.wav");
 
         // start music
         midiPlayer = new MidiPlayer();
@@ -145,6 +117,8 @@ public class GameManager extends GameCore {
 
 
     public void draw(Graphics2D g) {
+    	renderer.setBackground(
+                resourceManager.loadImage("bg" + resourceManager.getWorld() + ".png"));
         renderer.draw(g, map,
             screen.getWidth(), screen.getHeight());
     }
@@ -260,9 +234,6 @@ public class GameManager extends GameCore {
     */
     public void update(long elapsedTime) {
         Player player = (Player)map.getPlayer();
-
-
-        // player is dead! start map over
         if (player.getState() == Player.STATE_DEAD) {
             map = resourceManager.reloadMap();
             return;
@@ -368,13 +339,10 @@ public class GameManager extends GameCore {
         from the map.
     */
     public void acquirePowerUp(Player player, PowerUp powerUp) {
-        // remove it from the map
-        //map.removeSprite(powerUp);
-
         if (powerUp instanceof PowerUp.Lightning) {
             // do something here, like give the player points
             map.removeSprite(powerUp);
-            soundManager.play(prizeSound);
+            //soundManager.play(prizeSound);
             if (resourceManager.getWorld() == 1) {
             	player.setCanWallJump(true);
             }
@@ -389,12 +357,30 @@ public class GameManager extends GameCore {
             // advance to next map
             if(passGoal.isPressed()){
                 map.removeSprite(powerUp);
-                soundManager.play(prizeSound,
-                new EchoFilter(2000, .7f), false);
+                //soundManager.play(prizeSound, new EchoFilter(2000, .7f), false);
                 map = resourceManager.loadNextMap();
             }
         }
     }
+    
+    private static final AudioFormat PLAYBACK_FORMAT = new AudioFormat(44100, 16, 1, true, false);
+    private static final int DRUM_TRACK = 1;
+    public static final float GRAVITY = 0.002f;
+    private Point pointCache = new Point();
+    private TileMap map;
+    private MidiPlayer midiPlayer;
+    private SoundManager soundManager;
+    private ResourceManager resourceManager;
+    //private Sound prizeSound;
+    //private Sound boopSound;
+    private InputManager inputManager;
+    private TileMapRenderer renderer;
+    private GameAction moveLeft;
+    private GameAction moveRight;
+    private GameAction jump;
+    private GameAction exit;
+    private GameAction duck;
+    private GameAction passGoal;
     
     
 }
