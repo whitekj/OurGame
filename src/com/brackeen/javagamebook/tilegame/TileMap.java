@@ -24,7 +24,7 @@ public class TileMap {
     */
     public TileMap(int width, int height) {
         tiles = new Image[width][height];
-        sprites = new LinkedList();
+        sprites = new LinkedList<Sprite>();
     }
 
 

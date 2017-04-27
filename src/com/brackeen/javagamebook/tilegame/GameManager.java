@@ -46,6 +46,7 @@ public class GameManager extends GameCore {
     private GameAction jump;
     private GameAction exit;
     private GameAction duck;
+    private GameAction passGoal;
 
 
     public void init() {
@@ -98,6 +99,7 @@ public class GameManager extends GameCore {
         exit = new GameAction("exit",
             GameAction.DETECT_INITAL_PRESS_ONLY);
         duck = new GameAction("duck",GameAction.NORMAL);
+        passGoal = new GameAction("passGoal", GameAction.NORMAL);
 
         inputManager = new InputManager(
             screen.getFullScreenWindow());
@@ -108,6 +110,7 @@ public class GameManager extends GameCore {
         inputManager.mapToKey(jump, KeyEvent.VK_SPACE);
         inputManager.mapToKey(exit, KeyEvent.VK_ESCAPE);
         inputManager.mapToKey(duck, KeyEvent.VK_DOWN);
+        inputManager.mapToKey(passGoal, KeyEvent.VK_UP);
     }
 
 
@@ -348,16 +351,14 @@ public class GameManager extends GameCore {
         }
         // check for player collision with other sprites
         Sprite collisionSprite = getSpriteCollision(player);
-        if (collisionSprite instanceof PowerUp) {
-            acquirePowerUp((PowerUp)collisionSprite);
-        }
-        else if (collisionSprite instanceof Spike) {
-            Spike spike = (Spike)collisionSprite;
+        if (collisionSprite instanceof Spike) {
             player.setState(Player.STATE_DYING);
         }
-    	else if (collisionSprite instanceof Saw) {
-    		Saw saw = (Saw)collisionSprite;
+    	if (collisionSprite instanceof Saw) {
     		player.setState(Player.STATE_DYING);
+        }
+    	if (collisionSprite instanceof PowerUp) {
+            acquirePowerUp(player,(PowerUp)collisionSprite);
         }
     }
 
@@ -366,24 +367,32 @@ public class GameManager extends GameCore {
         Gives the player the specified power up and removes it
         from the map.
     */
-    public void acquirePowerUp(PowerUp powerUp) {
+    public void acquirePowerUp(Player player, PowerUp powerUp) {
         // remove it from the map
-        map.removeSprite(powerUp);
+        //map.removeSprite(powerUp);
 
-        if (powerUp instanceof PowerUp.Star) {
+        if (powerUp instanceof PowerUp.Lightning) {
             // do something here, like give the player points
+            map.removeSprite(powerUp);
             soundManager.play(prizeSound);
-        }
-        else if (powerUp instanceof PowerUp.Music) {
-            // change the music
-            soundManager.play(prizeSound);
-            toggleDrumPlayback();
+            if (resourceManager.getWorld() == 1) {
+            	player.setCanWallJump(true);
+            }
+            if (resourceManager.getWorld() == 2) {
+            	player.setCanDoubleJump(true);
+            }
+            if (resourceManager.getWorld() == 3) {
+            	//Open boss access?
+            }
         }
         else if (powerUp instanceof PowerUp.Goal) {
             // advance to next map
-            soundManager.play(prizeSound,
+            if(passGoal.isPressed()){
+                map.removeSprite(powerUp);
+                soundManager.play(prizeSound,
                 new EchoFilter(2000, .7f), false);
-            map = resourceManager.loadNextMap();
+                map = resourceManager.loadNextMap();
+            }
         }
     }
     

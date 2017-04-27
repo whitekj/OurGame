@@ -29,20 +29,10 @@ public abstract class PowerUp extends Sprite {
 
 
     /**
-        A Star PowerUp. Gives the player points.
+        A Lightning PowerUp. Gives the player a new power.
     */
-    public static class Star extends PowerUp {
-        public Star(Animation anim) {
-            super(anim);
-        }
-    }
-
-
-    /**
-        A Music PowerUp. Changes the game music.
-    */
-    public static class Music extends PowerUp {
-        public Music(Animation anim) {
+    public static class Lightning extends PowerUp {
+        public Lightning(Animation anim) {
             super(anim);
         }
     }
