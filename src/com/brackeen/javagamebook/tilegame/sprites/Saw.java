@@ -1,5 +1,7 @@
 package com.brackeen.javagamebook.tilegame.sprites;
 
+import java.lang.reflect.Constructor;
+
 import com.brackeen.javagamebook.graphics.Animation;
 import com.brackeen.javagamebook.graphics.Sprite;
 
@@ -11,15 +13,20 @@ public class Saw extends Sprite {
 	public Saw(Animation anim) {
 		super(anim);
 	}
-
-    public Saw(Animation left, Animation right) {
-    	super(right);
-        this.left = left;
-        this.right = right;
+	
+	@Override
+	public Object clone() {
+        // use reflection to create the correct subclass
+        Constructor constructor = getClass().getConstructors()[0];
+        try {
+            return constructor.newInstance(
+                new Object[] {(Animation)anim.clone()});
+        }
+        catch (Exception ex) {
+            // should never happen
+            ex.printStackTrace();
+            return null;
+        }
     }
-
-    private Animation left;
-    private Animation right;
-
 
 }

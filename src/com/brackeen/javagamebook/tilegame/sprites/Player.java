@@ -262,11 +262,11 @@ public class Player extends Sprite {
 
 	private boolean onGround;
 	private boolean onWall; //True if player is holding against wall
-	private boolean ducking;
+	private boolean ducking; 
 	private boolean canWallJump; //True if ability is unlocked
 	private boolean canDoubleJump; //True if ability is unlocked
 	private boolean doubleJumped; //True if player already double jumped
-	private int state;
+	private int state;  //Either normal, dying or dead
 	private long stateTime;
 	private Animation left;
 	private Animation right;

@@ -17,18 +17,22 @@ import com.brackeen.javagamebook.tilegame.sprites.*;
 */
 public class ResourceManager {
 
-    private ArrayList tiles;
+    private ArrayList<Image> tiles;
     private int currentMap;
+    private int currentWorld;
     private int numMaps; //number of maps per world
+    private int numWorlds;
     private GraphicsConfiguration gc;
 
     // host sprites used for cloning
     private Sprite playerSprite;
-    private Sprite musicSprite;
-    private Sprite coinSprite;
+    private Sprite lightningSprite;
     private Sprite goalSprite;
     private Sprite spikeSprite;
     private Sprite sawSprite;
+    private Sprite spikeBloodySprite;
+    private Sprite sawBloodySprite;
+    private Sprite spikeInvisibleSprite;
 
     /**
         Creates a new ResourceManager with the specified
@@ -39,7 +43,10 @@ public class ResourceManager {
         loadTileImages();
         loadCreatureSprites();
         loadPowerUpSprites();
-        numMaps = 2; //Change to add more maps to a world
+        numMaps = 5; //Change to add more maps to a world
+        numWorlds = 3;
+        currentMap = 0;
+        currentWorld = 1;
     }
 
 
@@ -89,18 +96,23 @@ public class ResourceManager {
     public TileMap loadNextMap() {
         TileMap map = null;
         while (map == null) {
-            currentMap++;
+        	if (currentMap == numMaps) {
+            	if (currentWorld == numWorlds) {
+            		//Done with game, or move to final level
+            		return null;
+            	}
+            	currentWorld++;
+            	currentMap = 0;
+        	}
+        	else { 
+        		currentMap++;
+        	}
             try {
                 map = loadMap(
-                    "maps/map" + currentMap + ".txt");
+                    "maps/map" + currentWorld + "-" + currentMap + ".txt");
             }
-            catch (IOException ex) {
-                if (currentMap == (numMaps-1)) {
-                    //Done with world, move to next or return null if last world
-                    return null;
-                }
-                currentMap = 0;
-                map = null;
+            catch (IOException e) {
+                return null;
             }
         }
 
@@ -111,10 +123,10 @@ public class ResourceManager {
     public TileMap reloadMap() {
         try {
             return loadMap(
-                "maps/map" + currentMap + ".txt");
+            	"maps/map" + currentWorld + "-" + currentMap + ".txt");
         }
-        catch (IOException ex) {
-            ex.printStackTrace();
+        catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -123,7 +135,7 @@ public class ResourceManager {
     private TileMap loadMap(String filename)
         throws IOException
     {
-        ArrayList lines = new ArrayList();
+        ArrayList<String> lines = new ArrayList<String>();
         int width = 0;
         int height = 0;
 
@@ -149,22 +161,19 @@ public class ResourceManager {
         height = lines.size();
         TileMap newMap = new TileMap(width, height);
         for (int y=0; y<height; y++) {
-            String line = (String)lines.get(y);
+            String line = lines.get(y);
             for (int x=0; x<line.length(); x++) {
                 char ch = line.charAt(x);
 
                 // check if the char represents tile A, B, C etc.
                 int tile = ch - 'A';
                 if (tile >= 0 && tile < tiles.size()) {
-                    newMap.setTile(x, y, (Image)tiles.get(tile));
+                    newMap.setTile(x, y, tiles.get(tile));
                 }
 
                 // check if the char represents a sprite
                 else if (ch == 'o') {
-                    addSprite(newMap, coinSprite, x, y);
-                }
-                else if (ch == '!') {
-                    addSprite(newMap, musicSprite, x, y);
+                    addSprite(newMap, lightningSprite, x, y);
                 }
                 else if (ch == '*') {
                     addSprite(newMap, goalSprite, x, y);
@@ -217,6 +226,15 @@ public class ResourceManager {
             map.addSprite(sprite);
         }
     }
+    
+    /**
+     * Returns the current world
+     * @return current world
+     */
+    
+    public int getWorld() {
+    	return currentWorld;
+    }
 
 
     // -----------------------------------------------------------
@@ -227,7 +245,7 @@ public class ResourceManager {
     public void loadTileImages() {
         // keep looking for tile A,B,C, etc. this makes it
         // easy to drop new tiles in the images/ directory
-        tiles = new ArrayList();
+        tiles = new ArrayList<Image>();
         char ch = 'A';
         while (true) {
             String name = "tile_" + ch + ".png";
@@ -250,11 +268,17 @@ public class ResourceManager {
             loadImage("player1.png"),
             loadImage("player2.png"),
             loadImage("player3.png"),
-            loadImage("spike.png"),
-            loadImage("saw.png"),
+            loadImage("lightning1.png"), //Add second lightning sprite
+            loadImage("spike1.png"),
             loadImage("spike2.png"),
+            loadImage("spikeBloody1.png"),
+            loadImage("spikeBloody2.png"),
+            loadImage("spikeInvisible.png"),
+            loadImage("saw1.png"),
             loadImage("saw2.png"),
-            loadImage("lightning.png"),
+            loadImage("sawBloody1.png"),
+            loadImage("sawBloody2.png"),
+            loadImage("goal.png")
         };
 
         images[1] = new Image[images[0].length];
@@ -268,18 +292,10 @@ public class ResourceManager {
             // right-facing "dead" images
             images[3][i] = getFlippedImage(images[1][i]);
         }
-        //images[0][0], [0][1] have left-facing anim
-        //images[1][0], [1][1] have left-facing anim
-        //images[0][2], [1][2] have ducking sprite
-
         // Player sprite/animations
         Animation[] playerAnim = new Animation[8]; //Array of 8 animations
-       
         for (int i=0; i<4; i++) {
             playerAnim[i] = createPlayerAnim(images[i][0], images[i][0]);
-            //playerAnim[0] will have regular sprites
-            //1 will have right-facing
-            //2 and 3 will have dead left/right
         }
         //ducking sprites
         playerAnim[4] = createPlayerAnim(images[0][2], images[0][2]);
@@ -290,37 +306,69 @@ public class ResourceManager {
         playerSprite = new Player(playerAnim[0], playerAnim[1], playerAnim[2], playerAnim[3], 
         		playerAnim[4], playerAnim[5], playerAnim[6], playerAnim[7]);
         
+        //Lightning/door sprites
+        Animation lightningAnim = createPowerUpAnim(images[0][3], images[0][3]); //Change this later to add animation
+        lightningSprite = new PowerUp.Lightning(lightningAnim);
+        Animation goalAnim = createPowerUpAnim(images[0][13], images[0][13]);
+        goalSprite = new PowerUp.Goal(goalAnim);
         
+        //Spike sprites
+        Animation[] spikeAnim = new Animation[9];    
+        //Up
+        spikeAnim[0] = createSpikeAnim(images[0][4]);
+        //Down
+        spikeAnim[1] = createSpikeAnim(images[2][4]);
+        //Left
+        spikeAnim[2] = createSpikeAnim(images[0][5]);
+        //Right
+        spikeAnim[3] = createSpikeAnim(images[2][5]);
+        //Bloody sprites
+        spikeAnim[4] = createSpikeAnim(images[0][6]);
+        spikeAnim[5] = createSpikeAnim(images[2][6]);
+        spikeAnim[6] = createSpikeAnim(images[0][7]);
+        spikeAnim[7] = createSpikeAnim(images[2][7]);
+        //Invisible
+        spikeAnim[7] = createSpikeAnim(images[0][8]);
+        spikeSprite = new Spike(spikeAnim[0], spikeAnim[1],spikeAnim[2], spikeAnim[3]);
+        spikeBloodySprite = new Spike(spikeAnim[4], spikeAnim[5],spikeAnim[6], spikeAnim[7]);
+        spikeInvisibleSprite = new Spike(spikeAnim[8]);
         
-        
-        
-        
-        //Creature sprite/animations
-        Animation[] spikeAnim = new Animation[4];
-        Animation[] sawAnim = new Animation[4];
-        for (int i=0; i<2; i++) {
-        	spikeAnim[i] = createAnim(images[i][3]);
-            sawAnim[i] = createAnim(images[i][4]);
-        }
-        spikeSprite = new Spike(spikeAnim[0], spikeAnim[1]);
-        sawSprite = new Saw(sawAnim[0], sawAnim[1]);
+        //Saw sprites
+        Animation[] sawAnim = new Animation[2];
+        //Normal
+        sawAnim[0] = createSawAnim(images[0][9], images[0][10]);
+        //Bloody
+        sawAnim[1] = createSawAnim(images[0][11], images[0][12]);
+        sawSprite = new Saw(sawAnim[0]);
+        sawBloodySprite = new Saw(sawAnim[1]);
     }
 
 
-    private Animation createPlayerAnim(Image player1,
-        Image player2)
-    {
+    private Animation createPlayerAnim(Image player1, Image player2) {
         Animation anim = new Animation();
         anim.addFrame(player2, 150);
         anim.addFrame(player1, 150);
         return anim;
     }
-
-
-    private Animation createAnim(Image img)
-    {
+    
+    private Animation createPowerUpAnim(Image img1, Image img2) {
         Animation anim = new Animation();
-        anim.addFrame(img, 50);
+        anim.addFrame(img1, 150);
+        anim.addFrame(img2, 150);
+        return anim;
+    }
+
+
+    private Animation createSawAnim(Image img1, Image img2) {
+        Animation anim = new Animation();
+        anim.addFrame(img1, 25);
+        anim.addFrame(img2, 25);
+        return anim;
+    }
+    
+    private Animation createSpikeAnim(Image img) {
+    	Animation anim = new Animation();
+        anim.addFrame(img, 2000);
         return anim;
     }
 
@@ -328,27 +376,15 @@ public class ResourceManager {
     private void loadPowerUpSprites() {
         // create "goal" sprite
         Animation anim = new Animation();
-        anim.addFrame(loadImage("heart1.png"), 150);
-        anim.addFrame(loadImage("heart2.png"), 150);
-        anim.addFrame(loadImage("heart3.png"), 150);
-        anim.addFrame(loadImage("heart2.png"), 150);
+        anim.addFrame(loadImage("goal.png"), 150);
         goalSprite = new PowerUp.Goal(anim);
 
-        // create "star" sprite
+        // create "lightning" sprite
         anim = new Animation();
-        anim.addFrame(loadImage("star1.png"), 100);
-        anim.addFrame(loadImage("star2.png"), 100);
-        anim.addFrame(loadImage("star3.png"), 100);
-        anim.addFrame(loadImage("star4.png"), 100);
-        coinSprite = new PowerUp.Star(anim);
-
-        // create "music" sprite
-        anim = new Animation();
-        anim.addFrame(loadImage("music1.png"), 150);
-        anim.addFrame(loadImage("music2.png"), 150);
-        anim.addFrame(loadImage("music3.png"), 150);
-        anim.addFrame(loadImage("music2.png"), 150);
-        musicSprite = new PowerUp.Music(anim);
+        anim.addFrame(loadImage("lightning1.png"), 100);
+        anim.addFrame(loadImage("lightning2.png"), 100);
+        anim.addFrame(loadImage("lightning3.png"), 100);
+        anim.addFrame(loadImage("lightning4.png"), 100);
+        lightningSprite = new PowerUp.Lightning(anim);
     }
-
 }
