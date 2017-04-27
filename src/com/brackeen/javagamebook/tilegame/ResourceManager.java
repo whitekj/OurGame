@@ -59,7 +59,7 @@ public class ResourceManager {
         loadPowerUpSprites();
         numMaps = 5; //Change to add more maps to a world
         numWorlds = 3;
-        currentMap = 0;
+        currentMap = 4;
         currentWorld = 1;
     }
 
@@ -330,7 +330,7 @@ public class ResourceManager {
             loadImage("spikeBloody2.png"),
             loadImage("spikeInvisible.png"), //Used as a pit
             loadImage("saw1.png"), //Full saw
-            loadImage("saw2.png"), //Right-facing version
+            loadImage("saw2.png"), //Second frame of animation
             loadImage("sawBloody1.png"),
             loadImage("sawBloody2.png"),
             loadImage("sawHalf1.png"), //Half saw
@@ -384,8 +384,8 @@ public class ResourceManager {
         spikeRightBloody = new Spike(createSpikeAnim(images[2][n++]));
         spikeInvisible = new Spike(createSpikeAnim(images[0][n++]));
         //Saw sprites
-        sawFull = new Saw(createSawAnim(images[0][n], images[0][n++]));
-        sawFullBloody = new Saw(createSawAnim(images[0][n], images[0][n++]));
+        sawFull = new Saw(createSawAnim(images[0][n++], images[0][n++]));
+        sawFullBloody = new Saw(createSawAnim(images[0][n++], images[0][n++]));
         sawHalfUp = new Saw(createSawAnim(images[0][n], images[0][n]));
         sawHalfDown = new Saw(createSawAnim(images[2][n], images[2][n++]));
         sawHalfLeft = new Saw(createSawAnim(images[0][n], images[0][n]));
