@@ -60,7 +60,7 @@ public class ResourceManager {
         numMaps = 5; //Change to add more maps to a world
         numWorlds = 3;
         currentMap = 1;
-        currentWorld = 3;
+        currentWorld = 1;
     }
 
 
@@ -106,22 +106,7 @@ public class ResourceManager {
         return newImage;
     }
     
-    public TileMap loadFirstMap() {
-    	TileMap map = null;
-        while (map == null) {
-        	try {
-                map = loadMap(
-                    "maps/map" + currentWorld + "-" + currentMap + ".txt");
-            }
-            catch (IOException e) {
-                return null;
-            }
-        }
-        return map;
-    }
-
-
-    public TileMap loadNextMap(Player player) {
+    public TileMap loadNextMap(boolean gotPowerUp) {
         TileMap map = null;
         while (map == null) {
         	if (currentMap == numMaps) {
@@ -130,10 +115,9 @@ public class ResourceManager {
             		return null;
             	}
             	currentMap = 1;
-            	//if (player.getGotPowerUp()) {
-            		currentWorld++;
-            		//player.setGotPowerUp(false);
-            	//}
+            	if (gotPowerUp) {
+            		currentWorld++;  		
+            	}
         	}
         	else { 
         		currentMap++;

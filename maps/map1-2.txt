@@ -35,5 +35,5 @@ I                         III                      I
 I                  III                             I
 I               III                        IIIIIIIII
 I                                                  I
-I  @    ^ ^                            ^^       !  I 
+I  @    ^ ^                    *       ^^       !  I 
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

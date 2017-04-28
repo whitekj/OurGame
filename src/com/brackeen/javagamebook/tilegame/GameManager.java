@@ -34,7 +34,7 @@ public class GameManager extends GameCore {
         renderer = new TileMapRenderer();
 
         // load first map
-        map = resourceManager.loadFirstMap();
+        map = resourceManager.loadNextMap(false);
 
         // load sounds
         soundManager = new SoundManager(PLAYBACK_FORMAT);
@@ -240,6 +240,7 @@ public class GameManager extends GameCore {
     		player.setCanDoubleJump(true);
     	}
         if (currentWorld != world) {
+        	gotPowerUp = false;
         	world = currentWorld;
         	Sequence sequence =
                     midiPlayer.getSequence("sounds/stage" + currentWorld + ".mid");
@@ -333,7 +334,7 @@ public class GameManager extends GameCore {
         if (powerUp instanceof PowerUp.Lightning) {
             // do something here, like give the player points
             map.removeSprite(powerUp);
-            player.setGotPowerUp(true);
+            gotPowerUp = true;
             /** soundManager.play(prizeSound);
             if (resourceManager.getWorld() == 1) {
             	player.setCanWallJump(true);
@@ -350,7 +351,7 @@ public class GameManager extends GameCore {
             if(passGoal.isPressed()){
                 map.removeSprite(powerUp);
                 //soundManager.play(prizeSound, new EchoFilter(2000, .7f), false);
-                map = resourceManager.loadNextMap(player);
+                map = resourceManager.loadNextMap(gotPowerUp);
             }
         }
     }
@@ -364,6 +365,7 @@ public class GameManager extends GameCore {
     private ResourceManager resourceManager;
     private int world;
     private boolean paused;
+    private boolean gotPowerUp = false;
     //private Sound prizeSound;
     //private Sound boopSound;
     private InputManager inputManager;
