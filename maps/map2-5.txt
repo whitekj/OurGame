@@ -22,7 +22,7 @@ I                                                  I
 I                                    IIII       IIII
 I                                                3 I
 IIIIIII                                            I
-I    II                    I                      I
+I    II                    I                       I
 I                                           I      I
 I                                           I      I
 I *  II^      2                             I      I
@@ -35,5 +35,5 @@ I>                                         <I      I
 I>                        I                <I     !I
 I>                                         <I  IIIII
 I      I     II     I                      <I      I
-I  @   I ^  ^  ^  ^ I     2    2    2      <I^^^^^ I 
+I  @   I ^  ^  ^  ^ I     2    2    2      <I^^^^^^I 
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

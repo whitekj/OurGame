@@ -3,8 +3,8 @@
 # The tiles are:
 #   (Space) Empty tile
 #   I       Terrain
-#   @     Player
-#   !        Lightning
+#   @       Player
+#   !       Lightning
 #   *       Goal
 #   ^       Spike (up)
 #   V       Spike (down)
@@ -17,7 +17,9 @@
 #   5       Saw (Half/Right)
 #   6       Saw Handle(Up/Down)
 #   7       Saw Handle(Left/Right)
-                             
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+I                                                  I
+I                                                  I
 I                                                  I
 I      *                                          <I
 I    <III>   <III>   <III>   <III>   IIIII        <I
