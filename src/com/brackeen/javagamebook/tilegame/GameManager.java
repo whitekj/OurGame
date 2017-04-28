@@ -72,7 +72,7 @@ public class GameManager extends GameCore {
             GameAction.DETECT_INITAL_PRESS_ONLY);
         duck = new GameAction("duck",GameAction.NORMAL);
         passGoal = new GameAction("passGoal", GameAction.NORMAL);
-
+        reset = new GameAction("reset", GameAction.DETECT_INITAL_PRESS_ONLY);
         inputManager = new InputManager(
             screen.getFullScreenWindow());
         inputManager.setCursor(InputManager.INVISIBLE_CURSOR);
@@ -83,6 +83,7 @@ public class GameManager extends GameCore {
         inputManager.mapToKey(exit, KeyEvent.VK_ESCAPE);
         inputManager.mapToKey(duck, KeyEvent.VK_DOWN);
         inputManager.mapToKey(passGoal, KeyEvent.VK_UP);
+        inputManager.mapToKey(reset, KeyEvent.VK_R);
     }
 
 
@@ -91,7 +92,6 @@ public class GameManager extends GameCore {
         if (exit.isPressed()) {
             stop();
         }
-
         Player player = (Player)map.getPlayer();
         if (player.isAlive()) {
             float velocityX = 0;
@@ -109,6 +109,9 @@ public class GameManager extends GameCore {
             }
             else {
             	player.duck(false);
+            }
+            if (reset.isPressed()) {
+            	player.setState(Player.STATE_DYING);
             }
             player.setVelocityX(velocityX);
         }
@@ -238,15 +241,32 @@ public class GameManager extends GameCore {
             map = resourceManager.reloadMap();
             return;
         }
-        if (((Player) player).isDucking()) {
-        	
-        }
         // get keyboard/mouse input
         checkInput(elapsedTime);
-
+        updateWorld(player);
         // update player
         updatePlayer(player, elapsedTime);
         player.update(elapsedTime);
+    }
+    
+    private void updateWorld(Player player) {
+    	int currentWorld = resourceManager.getWorld();
+    	//Update abilities (must be changed to require power-up)
+        if (currentWorld == 2) {
+    		player.setCanWallJump(true);
+    	}
+    	if (currentWorld == 3) {
+    		player.setCanWallJump(true);
+    		player.setCanDoubleJump(true);
+    	}
+        if (currentWorld != world) {
+        	world = currentWorld;
+        	Sequence sequence =
+                    midiPlayer.getSequence("sounds/stage" + currentWorld + ".mid");
+            midiPlayer.play(sequence, true);
+            
+               
+        }
     }
 
 
@@ -371,6 +391,7 @@ public class GameManager extends GameCore {
     private MidiPlayer midiPlayer;
     private SoundManager soundManager;
     private ResourceManager resourceManager;
+    private int world;
     //private Sound prizeSound;
     //private Sound boopSound;
     private InputManager inputManager;
@@ -381,6 +402,7 @@ public class GameManager extends GameCore {
     private GameAction exit;
     private GameAction duck;
     private GameAction passGoal;
+    private GameAction reset;
     
     
 }

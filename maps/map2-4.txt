@@ -19,8 +19,8 @@
 #   7       Saw Handle(Left/Right)
                              
 I                                                  I
-I       *                                         <I
-I     <III>   <III>   <III>  <III>  IIIII         <I
+I      *                                          <I
+I    <III>   <III>   <III>   <III>   IIIII        <I
 I                                                 <I
 I>                                           I    <I
 I                                            I    <I

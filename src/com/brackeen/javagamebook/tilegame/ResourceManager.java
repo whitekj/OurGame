@@ -59,7 +59,7 @@ public class ResourceManager {
         loadPowerUpSprites();
         numMaps = 5; //Change to add more maps to a world
         numWorlds = 3;
-        currentMap = 4;
+        currentMap = 0;
         currentWorld = 1;
     }
 

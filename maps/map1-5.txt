@@ -24,7 +24,7 @@ I                                                  I
 I                   1                              I
 I      *       IIIIIIIIIIII       IIIIIII          I
 I     <I>                                          I
-I      V                                           I
+I                                                 I
 I                                            IIIIIII
 I                                                  I
 I      ^            ^^             ^^              I
