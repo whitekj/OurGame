@@ -24,17 +24,17 @@ I                                                  I
 I                                                  I
 I                                                  I
 I                                                  I
-I          ^^                2          *          I
-I      IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+I                                       *          I
+I                   IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 I                                                  I
 I                                                  I
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII      I
+I            IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII      I
 I                                                  I
 I                                                  I
-I    IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+I                                        IIIIIIIIIII
 I                                                  I
 I                                                  I
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII       I
+IIIII      IIIIIIIIIII       IIIIIIIIIIIIIII       I
 I                                                  I
 I @                                                I 
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
