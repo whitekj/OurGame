@@ -3,11 +3,8 @@ package com.brackeen.javagamebook.tilegame;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
-
 import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
 import javax.sound.sampled.AudioFormat;
-
 import com.brackeen.javagamebook.graphics.*;
 import com.brackeen.javagamebook.sound.*;
 import com.brackeen.javagamebook.input.*;
@@ -37,7 +34,7 @@ public class GameManager extends GameCore {
         renderer = new TileMapRenderer();
 
         // load first map
-        map = resourceManager.loadNextMap();
+        map = resourceManager.loadFirstMap();
 
         // load sounds
         soundManager = new SoundManager(PLAYBACK_FORMAT);
@@ -49,7 +46,7 @@ public class GameManager extends GameCore {
         Sequence sequence =
             midiPlayer.getSequence("sounds/stage1.mid");
         midiPlayer.play(sequence, true);
-        toggleDrumPlayback();
+
     }
 
 
@@ -62,7 +59,6 @@ public class GameManager extends GameCore {
         soundManager.close();
     }
 
-
     private void initInput() {
         moveLeft = new GameAction("moveLeft");
         moveRight = new GameAction("moveRight");
@@ -73,6 +69,7 @@ public class GameManager extends GameCore {
         duck = new GameAction("duck",GameAction.NORMAL);
         passGoal = new GameAction("passGoal", GameAction.NORMAL);
         reset = new GameAction("reset", GameAction.DETECT_INITAL_PRESS_ONLY);
+        pause = new GameAction("pause", GameAction.DETECT_INITAL_PRESS_ONLY);
         inputManager = new InputManager(
             screen.getFullScreenWindow());
         inputManager.setCursor(InputManager.INVISIBLE_CURSOR);
@@ -84,8 +81,8 @@ public class GameManager extends GameCore {
         inputManager.mapToKey(duck, KeyEvent.VK_DOWN);
         inputManager.mapToKey(passGoal, KeyEvent.VK_UP);
         inputManager.mapToKey(reset, KeyEvent.VK_R);
+        inputManager.mapToKey(pause, KeyEvent.VK_P);
     }
-
 
     private void checkInput(long elapsedTime) {
 
@@ -118,7 +115,6 @@ public class GameManager extends GameCore {
 
     }
 
-
     public void draw(Graphics2D g) {
     	renderer.setBackground(
                 resourceManager.loadImage("bg" + resourceManager.getWorld() + ".png"));
@@ -126,26 +122,12 @@ public class GameManager extends GameCore {
             screen.getWidth(), screen.getHeight());
     }
 
-
     /**
         Gets the current map.
     */
     public TileMap getMap() {
         return map;
     }
-
-
-    /**
-        Turns on/off drum playback in the midi music (track 1).
-    */
-    public void toggleDrumPlayback() {
-        Sequencer sequencer = midiPlayer.getSequencer();
-        if (sequencer != null) {
-            sequencer.setTrackMute(DRUM_TRACK,
-                !sequencer.getTrackMute(DRUM_TRACK));
-        }
-    }
-
 
     /**
         Gets the tile that a Sprites collides with. Only the
@@ -159,7 +141,6 @@ public class GameManager extends GameCore {
         float fromY = Math.min(sprite.getY(), newY);
         float toX = Math.max(sprite.getX(), newX);
         float toY = Math.max(sprite.getY(), newY);
-
         // get the tile locations
         int fromTileX = TileMapRenderer.pixelsToTiles(fromX);
         int fromTileY = TileMapRenderer.pixelsToTiles(fromY);
@@ -167,7 +148,6 @@ public class GameManager extends GameCore {
             toX + sprite.getWidth() - 1);
         int toTileY = TileMapRenderer.pixelsToTiles(
             toY + sprite.getHeight() - 1);
-
         // check each tile for a collision
         for (int x=fromTileX; x<=toTileX; x++) {
             for (int y=fromTileY; y<=toTileY; y++) {
@@ -180,11 +160,9 @@ public class GameManager extends GameCore {
                 }
             }
         }
-
         // no collision found
         return null;
     }
-
 
     /**
         Checks if two Sprites collide with one another. Returns
@@ -196,13 +174,11 @@ public class GameManager extends GameCore {
         if (s1 == s2) {
             return false;
         }
-
         // get the pixel location of the Sprites
         int s1x = Math.round(s1.getX());
         int s1y = Math.round(s1.getY());
         int s2x = Math.round(s2.getX());
         int s2y = Math.round(s2.getY());
-
         // check if the two sprites' boundaries intersect
         return (s1x < s2x + s2.getWidth() &&
             s2x < s1x + s1.getWidth() &&
@@ -210,13 +186,11 @@ public class GameManager extends GameCore {
             s2y < s1y + s1.getHeight());
     }
 
-
     /**
         Gets the Sprite that collides with the specified Sprite,
         or null if no Sprite collides with the specified Sprite.
     */
     public Sprite getSpriteCollision(Sprite sprite) {
-
         // run through the list of Sprites
         Iterator<Sprite> i = (Iterator<Sprite>)map.getSprites();
         while (i.hasNext()) {
@@ -229,7 +203,6 @@ public class GameManager extends GameCore {
         // no collision found
         return null;
     }
-
 
     /**
         Updates Animation, position, and velocity of all Sprites
@@ -263,18 +236,14 @@ public class GameManager extends GameCore {
         	world = currentWorld;
         	Sequence sequence =
                     midiPlayer.getSequence("sounds/stage" + currentWorld + ".mid");
-            midiPlayer.play(sequence, true);
-            
-               
+            midiPlayer.play(sequence, true);   
         }
     }
-
 
     /**
         Updates the player, and checks collisions.
     */
     private void updatePlayer(Player player, long elapsedTime) {
-
         // apply gravity
     	player.setVelocityY(player.getVelocityY() + GRAVITY * elapsedTime);
         // change x
@@ -297,13 +266,11 @@ public class GameManager extends GameCore {
             	player.setX(
                     TileMapRenderer.tilesToPixels(tile.x + 1));
             }
-            player.collideHorizontal();
-            
+            player.collideHorizontal();  
         }
         if (player instanceof Player) {
             checkPlayerCollision((Player)player);
         }
-
         // change y
         float dy = player.getVelocityY();
         float oldY = player.getY();
@@ -328,9 +295,7 @@ public class GameManager extends GameCore {
         if (player instanceof Player) {
             checkPlayerCollision((Player)player);
         }
-
     }
-
 
     /**
         Checks for Player collision with other Sprites
@@ -353,7 +318,6 @@ public class GameManager extends GameCore {
         }
     }
 
-
     /**
         Gives the player the specified power up and removes it
         from the map.
@@ -362,7 +326,8 @@ public class GameManager extends GameCore {
         if (powerUp instanceof PowerUp.Lightning) {
             // do something here, like give the player points
             map.removeSprite(powerUp);
-            //soundManager.play(prizeSound);
+            player.setGotPowerUp(true);
+            /** soundManager.play(prizeSound);
             if (resourceManager.getWorld() == 1) {
             	player.setCanWallJump(true);
             }
@@ -372,19 +337,18 @@ public class GameManager extends GameCore {
             if (resourceManager.getWorld() == 3) {
             	//Open boss access?
             }
+            */
         }
         else if (powerUp instanceof PowerUp.Goal) {
-            // advance to next map
             if(passGoal.isPressed()){
                 map.removeSprite(powerUp);
                 //soundManager.play(prizeSound, new EchoFilter(2000, .7f), false);
-                map = resourceManager.loadNextMap();
+                map = resourceManager.loadNextMap(player);
             }
         }
     }
     
     private static final AudioFormat PLAYBACK_FORMAT = new AudioFormat(44100, 16, 1, true, false);
-    private static final int DRUM_TRACK = 1;
     public static final float GRAVITY = 0.002f;
     private Point pointCache = new Point();
     private TileMap map;
@@ -403,6 +367,7 @@ public class GameManager extends GameCore {
     private GameAction duck;
     private GameAction passGoal;
     private GameAction reset;
+    private GameAction pause;
     
     
 }

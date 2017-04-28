@@ -59,8 +59,8 @@ public class ResourceManager {
         loadPowerUpSprites();
         numMaps = 5; //Change to add more maps to a world
         numWorlds = 3;
-        currentMap = 0;
-        currentWorld = 1;
+        currentMap = 1;
+        currentWorld = 2;
     }
 
 
@@ -105,9 +105,23 @@ public class ResourceManager {
 
         return newImage;
     }
+    
+    public TileMap loadFirstMap() {
+    	TileMap map = null;
+        while (map == null) {
+        	try {
+                map = loadMap(
+                    "maps/map" + currentWorld + "-" + currentMap + ".txt");
+            }
+            catch (IOException e) {
+                return null;
+            }
+        }
+        return map;
+    }
 
 
-    public TileMap loadNextMap() {
+    public TileMap loadNextMap(Player player) {
         TileMap map = null;
         while (map == null) {
         	if (currentMap == numMaps) {
@@ -115,8 +129,11 @@ public class ResourceManager {
             		//Done with game, or move to final level
             		return null;
             	}
-            	currentWorld++;
             	currentMap = 1;
+            	//if (player.getGotPowerUp()) {
+            		currentWorld++;
+            		//player.setGotPowerUp(false);
+            	//}
         	}
         	else { 
         		currentMap++;
@@ -377,11 +394,11 @@ public class ResourceManager {
         spikeUp = new Spike(createSpikeAnim(images[0][n]));
         spikeDown = new Spike(createSpikeAnim(images[2][n++]));
         spikeLeft = new Spike(createSpikeAnim(images[0][n]));
-        spikeRight = new Spike(createSpikeAnim(images[2][n++]));
+        spikeRight = new Spike(createSpikeAnim(images[1][n++]));
         spikeUpBloody = new Spike(createSpikeAnim(images[0][n]));
         spikeDownBloody = new Spike(createSpikeAnim(images[2][n++]));
         spikeLeftBloody = new Spike(createSpikeAnim(images[0][n]));
-        spikeRightBloody = new Spike(createSpikeAnim(images[2][n++]));
+        spikeRightBloody = new Spike(createSpikeAnim(images[1][n++]));
         spikeInvisible = new Spike(createSpikeAnim(images[0][n++]));
         //Saw sprites
         sawFull = new Saw(createSawAnim(images[0][n++], images[0][n++]));
