@@ -19,22 +19,23 @@
 #   7       Saw Handle(Left/Right)
 # Teaching Double Jump Level
                              
-I                                                  I
-I                                                  I
-I                                                  I
-I                                                  I
-I                                                  I
-I      *                                           I
-IIIIIIIIIIIIIIII          IIIIIIIII        IIII    I
-I                                                  I
-I>                                                 I
-I>                                                 I
-I>                                                 I
-I>                                                 I
-I>                                                 I
-I>                                                 I
-I>    I                                            I
-I    <I                                            I
-I    <I                                            I
-I @  <I   22222            ^^^^^^^                 I 
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
+
+
+
+
+  @
+                                                                                             *     
+IIIIIIIII             I             I             I             I             I             III
+                                                                    
+                                                                   
+                                                                   
+                                                                   
+
+
+
+
+
+
+                                                                   
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP

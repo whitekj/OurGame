@@ -60,7 +60,7 @@ public class ResourceManager {
         numMaps = 5; //Change to add more maps to a world
         numWorlds = 3;
         currentMap = 1;
-        currentWorld = 2;
+        currentWorld = 3;
     }
 
 

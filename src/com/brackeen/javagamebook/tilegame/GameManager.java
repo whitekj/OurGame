@@ -89,30 +89,36 @@ public class GameManager extends GameCore {
         if (exit.isPressed()) {
             stop();
         }
-        Player player = (Player)map.getPlayer();
-        if (player.isAlive()) {
-            float velocityX = 0;
-            if (moveLeft.isPressed()) {
-                velocityX-=player.getMaxSpeed();
-            }
-            if (moveRight.isPressed()) {
-                velocityX+=player.getMaxSpeed();
-            }
-            if (jump.isPressed()) {
-                player.jump(false);
-            }
-            if (duck.isPressed()) {
-                player.duck(true);
-            }
-            else {
-            	player.duck(false);
-            }
-            if (reset.isPressed()) {
-            	player.setState(Player.STATE_DYING);
-            }
-            player.setVelocityX(velocityX);
+        if (pause.isPressed()) {
+        	paused = !paused;
+        	//inputManager.resetAllGameActions();
+        	//pauseMenu.setVisible(paused);
         }
-
+        if (!paused) {
+        	Player player = (Player)map.getPlayer();
+        	if (player.isAlive()) {
+        		float velocityX = 0;
+        		if (moveLeft.isPressed()) {
+        			velocityX-=player.getMaxSpeed();
+        		}
+        		if (moveRight.isPressed()) {
+        			velocityX+=player.getMaxSpeed();
+        		}
+        		if (jump.isPressed()) {
+        			player.jump(false);
+        		}
+        		if (duck.isPressed()) {
+        			player.duck(true);
+        		}
+        		else {
+        			player.duck(false);
+        		}
+        		if (reset.isPressed()) {
+        			player.setState(Player.STATE_DYING);
+        		}
+        		player.setVelocityX(velocityX);
+        	}
+        }
     }
 
     public void draw(Graphics2D g) {
@@ -216,10 +222,11 @@ public class GameManager extends GameCore {
         }
         // get keyboard/mouse input
         checkInput(elapsedTime);
-        updateWorld(player);
-        // update player
-        updatePlayer(player, elapsedTime);
-        player.update(elapsedTime);
+        if (!paused) {
+        	updateWorld(player);
+        	updatePlayer(player, elapsedTime);
+        	player.update(elapsedTime);
+        }
     }
     
     private void updateWorld(Player player) {
@@ -356,6 +363,7 @@ public class GameManager extends GameCore {
     private SoundManager soundManager;
     private ResourceManager resourceManager;
     private int world;
+    private boolean paused;
     //private Sound prizeSound;
     //private Sound boopSound;
     private InputManager inputManager;
