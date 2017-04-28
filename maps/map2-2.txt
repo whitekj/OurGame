@@ -23,10 +23,10 @@ I>              *                                  I
 I>              I                                  I
 I>                                                 I
 I>                    IIII                         I
-I>                                     I           I
-I>                           IIIIII    I           I
-I>                                     I           I
-I>                                     I           I
+I>                                     I>          I
+I>                           IIIIII    I>          I
+I>                                     I>          I
+I>                                     I>          I
 I                                                 <I
 I              IIIIIII                            <I
 II                                   III          <I

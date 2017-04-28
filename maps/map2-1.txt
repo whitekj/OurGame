@@ -18,9 +18,8 @@
 #   6       Saw Handle(Up/Down)
 #   7       Saw Handle(Left/Right)
 # Teaching Wall Jump Level
-
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-I                                                  I 
+IVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVI 
 I                                                  I
 I                                                  I
 I                                                  I
@@ -29,12 +28,12 @@ I                                                  I
 I                                                  I
 I     II                                    II     I
 I     II                                    II     I
-I     II               ^^^^^                II     I
+I     II            ^^^^^^^^^^^             II     I
 I     II         IIIIIIIIIIIIIIIII          II     I
 I     II                                    II     I
 I     II                 *                  II     I
 I     II         IIIIIIIIIIIIIIIII          II     I
-I     II              VVVVVVVV              II     I
+I     II          VVVVVVVVVVVVVVV           II     I
 I     II                                    II     I
 I     II                                    II     I
 I     II                                    II     I
