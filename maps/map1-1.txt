@@ -19,22 +19,10 @@
 #   7       Saw Handle(Left/Right)
 # Introduction Training Level
                              
-I                                                  I
-I                                                  I
-I                                                  I
-I                                                  I
-I                                                  I
-I                                       *          I
-I                   IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-I                                                  I
-I                                                  I
-I            IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII      I
-I                                                  I
-I                                                  I
-I                                        IIIIIIIIIII
-I                                                  I
-I                                                  I
-IIIII      IIIIIIIIIII       IIIIIIIIIIIIIII       I
-I                                                  I
-I @                                                I 
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
+
+ *                           
+IIIIIIIIIIIIIIIIII       
+I                  
+I @            
+IIIIIIIIIIIIIIIIIIIIIIIIII
