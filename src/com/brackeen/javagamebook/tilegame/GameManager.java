@@ -10,7 +10,6 @@ import com.brackeen.javagamebook.sound.*;
 import com.brackeen.javagamebook.input.*;
 import com.brackeen.javagamebook.test.GameCore;
 import com.brackeen.javagamebook.tilegame.sprites.*;
-import com.brackeen.javagamebook.tilegame.sprites.PowerUp.Lightning;
 
 /**
     GameManager manages all parts of the game.
@@ -216,7 +215,7 @@ public class GameManager extends GameCore {
     public void update(long elapsedTime) {
         Player player = (Player)map.getPlayer();
         if (player.getState() == Player.STATE_DEAD) {
-            map = resourceManager.reloadMap(player.gotPowerUp());
+            map = resourceManager.reloadMap(gotPowerUp);
             return;
         }
         // get keyboard/mouse input
@@ -236,7 +235,6 @@ public class GameManager extends GameCore {
     
     private void updateWorld(Player player) {
     	int currentWorld = resourceManager.getWorld();
-    	//Update abilities (must be changed to require power-up)
         if (currentWorld == 2) {
     		player.setCanWallJump(true);
     	}
@@ -247,6 +245,7 @@ public class GameManager extends GameCore {
         if (currentWorld != world) {
         	gotPowerUp = false;
         	world = currentWorld;
+        	//Change music
         	Sequence sequence =
                     midiPlayer.getSequence("sounds/stage" + currentWorld + ".mid");
             midiPlayer.play(sequence, true);   
@@ -340,25 +339,13 @@ public class GameManager extends GameCore {
     */
     public void acquirePowerUp(Player player, PowerUp powerUp) {
         if (powerUp instanceof PowerUp.Lightning) {
-            // do something here, like give the player points
             map.removeSprite(powerUp);
             gotPowerUp = true;
-            /** soundManager.play(prizeSound);
-            if (resourceManager.getWorld() == 1) {
-            	player.setCanWallJump(true);
-            }
-            if (resourceManager.getWorld() == 2) {
-            	player.setCanDoubleJump(true);
-            }
-            if (resourceManager.getWorld() == 3) {
-            	//Open boss access?
-            }
-            */
+            //soundManager.play(zapSound);
         }
         else if (powerUp instanceof PowerUp.Goal) {
             if(passGoal.isPressed()){
                 map.removeSprite(powerUp);
-                //soundManager.play(prizeSound, new EchoFilter(2000, .7f), false);
                 map = resourceManager.loadNextMap(gotPowerUp);
             }
         }
@@ -371,11 +358,10 @@ public class GameManager extends GameCore {
     private MidiPlayer midiPlayer;
     private SoundManager soundManager;
     private ResourceManager resourceManager;
-    private int world;
+    private int world = 1;
     private boolean paused;
     private boolean gotPowerUp = false;
-    //private Sound prizeSound;
-    //private Sound boopSound;
+    //private Sound zapSound;
     private InputManager inputManager;
     private TileMapRenderer renderer;
     private GameAction moveLeft;

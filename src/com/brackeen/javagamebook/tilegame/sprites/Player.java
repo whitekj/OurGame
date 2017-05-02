@@ -169,13 +169,6 @@ public class Player extends Sprite {
 		canDoubleJump = b;
 	}
 	
-	public boolean gotPowerUp() {
-		return gotPowerUp;
-	}
-	
-	public void setGotPowerUp(boolean b) {
-		gotPowerUp = b;
-	}
 
 	@Override
 	public Object clone() {
@@ -275,7 +268,6 @@ public class Player extends Sprite {
 	private boolean canWallJump; //True if ability is unlocked
 	private boolean canDoubleJump; //True if ability is unlocked
 	private boolean doubleJumped; //True if player already double jumped
-	private boolean gotPowerUp;
 	private int state;  //Either normal, dying or dead
 	private long stateTime;
 	private Animation left;
