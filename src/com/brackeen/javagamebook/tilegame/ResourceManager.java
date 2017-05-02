@@ -125,11 +125,13 @@ public class ResourceManager {
         	if (currentMap == numMaps) {
             	if (currentWorld == numWorlds) {
             		//Done with game
-            		return null;
+            		System.exit(0);
             	}
-            	currentMap = 1;
-            	if (gotPowerUp) {
-            		currentWorld++;  		
+            	else {
+            		currentMap = 1;
+            		if (gotPowerUp) {
+            			currentWorld++;  	
+            		}
             	}
         	}
         	else { 
@@ -137,21 +139,20 @@ public class ResourceManager {
         	}
             try {
                 map = loadMap(
-                    "maps/map" + currentWorld + "-" + currentMap + ".txt", true);
+                    "maps/map" + currentWorld + "-" + currentMap + ".txt", !gotPowerUp);
             }
             catch (IOException e) {
                 return null;
             }
         }
-
         return map;
     }
 
 
-    public TileMap reloadMap(boolean showPowerUp) {
+    public TileMap reloadMap(boolean gotPowerUp) {
         try {
             return loadMap(
-            	"maps/map" + currentWorld + "-" + currentMap + ".txt", showPowerUp);
+            	"maps/map" + currentWorld + "-" + currentMap + ".txt", !gotPowerUp);
         }
         catch (IOException e) {
             e.printStackTrace();
