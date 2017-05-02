@@ -18,11 +18,19 @@
 #   6       Saw Handle(Up/Down)
 #   7       Saw Handle(Left/Right)
 # Introduction Training Level
-                             
 
 
- *                           
-IIIIIIIIIIIIIIIIII       
-I                  
-I @            
-IIIIIIIIIIIIIIIIIIIIIIIIII
+
+
+
+
+
+
+        *    
+     IIIIIIIIIII
+
+
+ @        IIIIIIIIIIII
+          I
+          I
+IIIIIIIIIII

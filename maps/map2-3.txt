@@ -20,22 +20,22 @@
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 I                                                  I
 I                                                  I
-I                                                  I
-I      *                                          <I
-I    <III>   <III>   <III>   <III>   IIIII        <I
-I                                                 <I
+I          ^                                       I
+I      *   I                                      <I
+III> <III> V <II>   <II>   <II>  <IIIII>          <I
+I             VV     VV     VV    VVVVV           <I
+I>      !                                    I    <I
+I      III                                   I    <I
 I>                                           I    <I
-I                                            I    <I
-I>                                           I    <I
-I                                            I    <I
+I              I                             I    <I
 I                                            I    <I
 I5                                           I    <I
 I                                 I          I    <I
-I                                 I          I    <I
+I      II                         I          I    <I
 I>                                I          I    <I
 I                                 I          I    <I
 I>                                I          I    <I
-I       IIIII                     I          I    <I
-I                      @                          <I
+I        IIIII         @          I          I    <I
+I                                                 <I
 I2 ^ 2 ^ 2 ^ 2 ^ 2 IIIIIIIII 2 ^ 2 ^ 2 ^ 2 ^ 2 ^ 2 I 
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

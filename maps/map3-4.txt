@@ -17,23 +17,34 @@
 #   5       Saw (Half/Right)
 #   6       Saw Handle(Up/Down)
 #   7       Saw Handle(Left/Right)
-                             
-I         II                                     III
-I  @      II                                      <I
-IIIIII    II                              II     III
-I         II                                       I
-I         II                                       I
-I         II                          II           I
-I       17II71                      17II71         I
-I                                   17II71         I
-I                                   17II71         I
-I                         IIIII     17II71         I
-I                                   17II71         I
-I71                                 17II71         I
-I                                   17II71         I
-I                      IIII         17II71    IIIIII
-I                                   17II71         I
-I                                   17II71         I
-I                                   17II71     I   I
-I^^^^^IIIII^^^^^^^IIIII^^^^^^^^^^^^^^^II71     I * I 
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+     
+I             I                                  ^^^^^ 
+                                                 IIIII
+                                                 I                   I
+    I                        IIIII               I
+                                                 I                                                                                               *
+                                                 I      III                  IIII          I         II                             I            I          
+                                                 I                                          
+                                                 I                                          
+                                                 I                                                      I
+    I                                            I 
+                                                 I                                     
+                                                                                                                                    I 
+                                                                                                         I
+                                                 I                         
+          I                                      I                           
+                                                 I      III            II                                 
+                                                 I                                                                                   
+                                                                                                          III             I         I 
+    @
+  IIIII
+
+
+
+
+
+
+
+
+
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP

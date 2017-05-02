@@ -1,0 +1,39 @@
+# Map file for tile-based game
+# (Lines that start with '#' are comments)
+# The tiles are:
+#   (Space) Empty tile
+#   I       Terrain
+#   @     Player
+#   !        Lightning
+#   *       Goal
+#   ^       Spike (up)
+#   V       Spike (down)
+#   <       Spike (left)
+#   >       Spike (right)
+#   1       Saw (Full)
+#   2       Saw (Half/Up)
+#   3       Saw (Half/Down)
+#   4       Saw (Half/Left)
+#   5       Saw (Half/Right)
+#   6       Saw Handle(Up/Down)
+#   7       Saw Handle(Left/Right)
+                             
+I                                                  
+I                                    I      I     *
+I                          III                    II
+I                                                 <I
+I                                                 <I 
+I   II       II      II                           <IIII
+I                                                     I
+I                                                     I
+I                                                 II^^I
+IIIIIIIIIIIIIIIIIIII                               IIII
+IVVVVVVVVVVVVVVVVVII                               I
+I                 II                           IIIII
+I                 II                               I
+I          I      VV                               I
+I                                         IIIIIIIIII
+I      I                          I                I
+I      I          II     II                       4I
+I @  2 I^^   ^^   1      II   2   2   2            I 
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

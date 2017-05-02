@@ -143,6 +143,8 @@ public class ScreenManager {
         catch (InvocationTargetException  ex) {
             // ignore
         }
+        
+        NullRepaintManager.install();
 
 
     }

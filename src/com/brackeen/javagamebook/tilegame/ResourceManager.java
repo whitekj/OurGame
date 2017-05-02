@@ -36,7 +36,7 @@ public class ResourceManager {
     private Sprite spikeDownBloody;
     private Sprite spikeLeftBloody;
     private Sprite spikeRightBloody;
-    private Sprite spikeInvisible;
+    private Sprite pit;
     private Sprite sawFull;
     private Sprite sawFullBloody;
     private Sprite sawHalfUp;
@@ -47,6 +47,8 @@ public class ResourceManager {
     private Sprite sawHalfDownBloody;
     private Sprite sawHalfLeftBloody;
     private Sprite sawHalfRightBloody;
+    private Sprite sawPole;
+    private Sprite sawPole2;
 
     /**
         Creates a new ResourceManager with the specified
@@ -106,12 +108,23 @@ public class ResourceManager {
         return newImage;
     }
     
+    public TileMap loadFirstMap() {
+    	TileMap map = null;
+        try {
+            map = loadMap("maps/map" + currentWorld + "-" + currentMap + ".txt", true);
+        }
+        catch (IOException e) {
+            return null;
+        }
+        return map;
+    }
+    
     public TileMap loadNextMap(boolean gotPowerUp) {
         TileMap map = null;
         while (map == null) {
         	if (currentMap == numMaps) {
             	if (currentWorld == numWorlds) {
-            		//Done with game, or move to final level
+            		//Done with game
             		return null;
             	}
             	currentMap = 1;
@@ -124,7 +137,7 @@ public class ResourceManager {
         	}
             try {
                 map = loadMap(
-                    "maps/map" + currentWorld + "-" + currentMap + ".txt");
+                    "maps/map" + currentWorld + "-" + currentMap + ".txt", true);
             }
             catch (IOException e) {
                 return null;
@@ -135,10 +148,10 @@ public class ResourceManager {
     }
 
 
-    public TileMap reloadMap() {
+    public TileMap reloadMap(boolean showPowerUp) {
         try {
             return loadMap(
-            	"maps/map" + currentWorld + "-" + currentMap + ".txt");
+            	"maps/map" + currentWorld + "-" + currentMap + ".txt", showPowerUp);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -147,7 +160,7 @@ public class ResourceManager {
     }
 
 
-    private TileMap loadMap(String filename)
+    private TileMap loadMap(String filename, boolean showPowerUp)
         throws IOException
     {
         ArrayList<String> lines = new ArrayList<String>();
@@ -183,13 +196,21 @@ public class ResourceManager {
                     newMap.setTile(x, y, tiles.get(currentWorld-1));
                 }
                 else if (ch == '!') {
-                    addSprite(newMap, lightningSprite, x, y);
+                	if (showPowerUp) {
+                		addSprite(newMap, lightningSprite, x, y);
+                	}
                 }
                 else if (ch == '*') {
                     addSprite(newMap, goalSprite, x, y);
                 }
                 else if (ch == 'P') {
-                    addSprite(newMap, spikeInvisible, x, y);
+                    addSprite(newMap, pit, x, y);
+                }
+                else if (ch == '6') {
+                    addSprite(newMap, sawPole, x, y);
+                }
+                else if (ch == '7') {
+                    addSprite(newMap, sawPole2, x, y);
                 }
                 else if (ch == '@') {
                 	Sprite player = (Sprite)playerSprite.clone();
@@ -323,21 +344,34 @@ public class ResourceManager {
             loadImage("player1.png"),
             loadImage("player2.png"),
             loadImage("player3.png"),
-            loadImage("goal.png"),
-            loadImage("lightning1.png"),
             loadImage("spike1.png"),
             loadImage("spike2.png"), //Right-facing version
             loadImage("spikeBloody1.png"),
             loadImage("spikeBloody2.png"),
-            loadImage("spikeInvisible.png"), //Used as a pit
+            loadImage("pit.png"), 
             loadImage("saw1.png"), //Full saw
-            loadImage("saw2.png"), //Second frame of animation
-            loadImage("sawBloody1.png"),
-            loadImage("sawBloody2.png"),
+            loadImage("saw2.png"),
+            loadImage("saw3.png"),
+            loadImage("saw4.png"),
+            loadImage("saw5.png"),
+            loadImage("saw6.png"),
+            loadImage("saw7.png"),
+            loadImage("saw8.png"),
+            loadImage("bsaw1.png"), //Bloody full saw
+            loadImage("bsaw2.png"),
+            loadImage("bsaw3.png"),
+            loadImage("bsaw4.png"),
+            loadImage("bsaw5.png"),
+            loadImage("bsaw6.png"),
+            loadImage("bsaw7.png"),
+            loadImage("bsaw8.png"),
             loadImage("sawHalf1.png"), //Half saw
-            loadImage("sawHalf2.png"), //Right-facing version
+            loadImage("sawHalf2.png"), 
             loadImage("sawHalfBloody1.png"),
             loadImage("sawHalfBloody2.png"),
+            loadImage("sawPole.png"),
+            loadImage("goal.png"),
+            loadImage("lightning.png")
         };
 
         images[1] = new Image[images[0].length];
@@ -366,35 +400,44 @@ public class ResourceManager {
         		playerAnim[4], playerAnim[5], playerAnim[6], playerAnim[7]);
         
         int n=3; //Used to increment slot of images array
+        //Spike sprites   
+        spikeUp = new Spike(createStaticAnim(images[0][n]));
+        spikeDown = new Spike(createStaticAnim(images[2][n++]));
+        spikeLeft = new Spike(createStaticAnim(images[0][n]));
+        spikeRight = new Spike(createStaticAnim(images[1][n++]));
+        spikeUpBloody = new Spike(createStaticAnim(images[0][n]));
+        spikeDownBloody = new Spike(createStaticAnim(images[2][n++]));
+        spikeLeftBloody = new Spike(createStaticAnim(images[0][n]));
+        spikeRightBloody = new Spike(createStaticAnim(images[1][n++]));
+        Animation invisAnim = createStaticAnim(images[0][n++]);
+        pit = new Spike(invisAnim);
+        //Full Saw sprites
+        sawFull = new Saw(createSawAnim(images[0][n++], images[0][n++], 
+        		images[0][n++], images[0][n++], images[0][n++], images[0][n++], 
+        		images[0][n++], images[0][n++]));
+        sawFullBloody = new Saw(createSawAnim(images[0][n++], images[0][n++], 
+        		images[0][n++], images[0][n++], images[0][n++], images[0][n++], 
+        		images[0][n++], images[0][n++]));
+        //Half Saw sprites
+        sawHalfUp = new Saw(createStaticAnim(images[0][n]));
+        sawHalfDown = new Saw(createStaticAnim(images[2][n++]));
+        sawHalfLeft = new Saw(createStaticAnim(images[0][n]));
+        sawHalfRight = new Saw(createStaticAnim(images[1][n++]));
+        sawHalfUpBloody = new Saw(createStaticAnim(images[0][n]));
+        sawHalfDownBloody = new Saw(createStaticAnim(images[2][n++]));
+        sawHalfLeftBloody = new Saw(createStaticAnim(images[0][n]));
+        sawHalfRightBloody = new Saw(createStaticAnim(images[1][n++]));
+        //Saw pole
+        sawPole = new Pole(createStaticAnim(images[0][n]));
+        sawPole2 = new Pole(createStaticAnim(images[2][n]));
         //Door sprites
-        Animation goalAnim = createPowerUpAnim(images[0][n], images[0][n]);
+        Animation goalAnim = createPowerUpAnim(images[0][n]);
         goalSprite = new PowerUp.Goal(goalAnim);
         n++;
         //Lightning sprites
-        Animation lightningAnim = createPowerUpAnim(images[0][n], images[0][n]); //Change this later to add animation
+        Animation lightningAnim = createPowerUpAnim(images[0][n]); 
         lightningSprite = new PowerUp.Lightning(lightningAnim);
-        n++;
-        //Spike sprites   
-        spikeUp = new Spike(createSpikeAnim(images[0][n]));
-        spikeDown = new Spike(createSpikeAnim(images[2][n++]));
-        spikeLeft = new Spike(createSpikeAnim(images[0][n]));
-        spikeRight = new Spike(createSpikeAnim(images[1][n++]));
-        spikeUpBloody = new Spike(createSpikeAnim(images[0][n]));
-        spikeDownBloody = new Spike(createSpikeAnim(images[2][n++]));
-        spikeLeftBloody = new Spike(createSpikeAnim(images[0][n]));
-        spikeRightBloody = new Spike(createSpikeAnim(images[1][n++]));
-        spikeInvisible = new Spike(createSpikeAnim(images[0][n++]));
-        //Saw sprites
-        sawFull = new Saw(createSawAnim(images[0][n++], images[0][n++]));
-        sawFullBloody = new Saw(createSawAnim(images[0][n++], images[0][n++]));
-        sawHalfUp = new Saw(createSawAnim(images[0][n], images[0][n]));
-        sawHalfDown = new Saw(createSawAnim(images[2][n], images[2][n++]));
-        sawHalfLeft = new Saw(createSawAnim(images[0][n], images[0][n]));
-        sawHalfRight = new Saw(createSawAnim(images[2][n], images[2][n++]));
-        sawHalfUpBloody = new Saw(createSawAnim(images[0][n], images[0][n]));
-        sawHalfDownBloody = new Saw(createSawAnim(images[2][n], images[2][n++]));
-        sawHalfLeftBloody = new Saw(createSawAnim(images[0][n], images[0][n]));
-        sawHalfRightBloody = new Saw(createSawAnim(images[2][n], images[2][n]));
+        
     }
 
 
@@ -405,22 +448,29 @@ public class ResourceManager {
         return anim;
     }
     
-    private Animation createPowerUpAnim(Image img1, Image img2) {
+    private Animation createPowerUpAnim(Image img) {
         Animation anim = new Animation();
-        anim.addFrame(img1, 150);
-        anim.addFrame(img2, 150);
+        anim.addFrame(img, 2000);
         return anim;
     }
 
 
-    private Animation createSawAnim(Image img1, Image img2) {
+    private Animation createSawAnim(Image img1, Image img2, Image img3, Image img4, 
+    		Image img5, Image img6, Image img7, Image img8) {
         Animation anim = new Animation();
-        anim.addFrame(img1, 25);
-        anim.addFrame(img2, 25);
+        int frames = 50;
+        anim.addFrame(img1, frames);
+        anim.addFrame(img2, frames);
+        anim.addFrame(img3, frames);
+        anim.addFrame(img4, frames);
+        anim.addFrame(img5, frames);
+        anim.addFrame(img6, frames);
+        anim.addFrame(img7, frames);
+        anim.addFrame(img8, frames);
         return anim;
     }
     
-    private Animation createSpikeAnim(Image img) {
+    private Animation createStaticAnim(Image img) {
     	Animation anim = new Animation();
         anim.addFrame(img, 2000);
         return anim;
@@ -435,10 +485,7 @@ public class ResourceManager {
 
         // create "lightning" sprite
         anim = new Animation();
-        anim.addFrame(loadImage("lightning1.png"), 100);
-        anim.addFrame(loadImage("lightning2.png"), 100);
-        anim.addFrame(loadImage("lightning3.png"), 100);
-        anim.addFrame(loadImage("lightning4.png"), 100);
+        anim.addFrame(loadImage("lightning.png"), 1000);
         lightningSprite = new PowerUp.Lightning(anim);
     }
 }
