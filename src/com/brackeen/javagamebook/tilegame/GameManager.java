@@ -38,8 +38,8 @@ public class GameManager extends GameCore {
 
         // load sounds
         soundManager = new SoundManager(PLAYBACK_FORMAT);
-        //prizeSound = soundManager.getSound("sounds/prize.wav");
-        //boopSound = soundManager.getSound("sounds/boop2.wav");
+        zapSound = soundManager.getSound("sounds/zap.wav");
+        dieSound = soundManager.getSound("sounds/die.wav");
 
         // start music
         midiPlayer = new MidiPlayer();
@@ -70,10 +70,10 @@ public class GameManager extends GameCore {
         passGoal = new GameAction("passGoal", GameAction.NORMAL);
         reset = new GameAction("reset", GameAction.DETECT_INITAL_PRESS_ONLY);
         pause = new GameAction("pause", GameAction.DETECT_INITAL_PRESS_ONLY);
+        stopMusic = new GameAction("stopMusic",GameAction.DETECT_INITAL_PRESS_ONLY);
         inputManager = new InputManager(
             screen.getFullScreenWindow());
         inputManager.setCursor(InputManager.INVISIBLE_CURSOR);
-
         inputManager.mapToKey(moveLeft, KeyEvent.VK_LEFT);
         inputManager.mapToKey(moveRight, KeyEvent.VK_RIGHT);
         inputManager.mapToKey(jump, KeyEvent.VK_SPACE);
@@ -82,6 +82,7 @@ public class GameManager extends GameCore {
         inputManager.mapToKey(passGoal, KeyEvent.VK_UP);
         inputManager.mapToKey(reset, KeyEvent.VK_R);
         inputManager.mapToKey(pause, KeyEvent.VK_P);
+        inputManager.mapToKey(stopMusic, KeyEvent.VK_M);
     }
 
     private void checkInput(long elapsedTime) {
@@ -93,6 +94,10 @@ public class GameManager extends GameCore {
         	paused = !paused;
         	//inputManager.resetAllGameActions();
         	//pauseMenu.setVisible(paused);
+        }
+        if(stopMusic.isPressed()) {
+        	musicPaused=!musicPaused;
+        	midiPlayer.setPaused(musicPaused);
         }
         if (!paused) {
         	Player player = (Player)map.getPlayer();
@@ -321,9 +326,11 @@ public class GameManager extends GameCore {
         Sprite collisionSprite = getSpriteCollision(player);
         if (collisionSprite instanceof Spike) {
             player.setState(Player.STATE_DYING);
+            soundManager.play(dieSound);
         }
     	if (collisionSprite instanceof Saw) {
     		player.setState(Player.STATE_DYING);
+    		soundManager.play(dieSound);
         }
     	if (collisionSprite instanceof Pole) {
     		//do nothing
@@ -341,7 +348,7 @@ public class GameManager extends GameCore {
         if (powerUp instanceof PowerUp.Lightning) {
             map.removeSprite(powerUp);
             gotPowerUp = true;
-            //soundManager.play(zapSound);
+            soundManager.play(zapSound);
         }
         else if (powerUp instanceof PowerUp.Goal) {
             if(passGoal.isPressed()){
@@ -360,8 +367,10 @@ public class GameManager extends GameCore {
     private ResourceManager resourceManager;
     private int world = 1;
     private boolean paused;
+    private boolean musicPaused=false;
     private boolean gotPowerUp = false;
-    //private Sound zapSound;
+    private Sound zapSound;
+    private Sound dieSound;
     private InputManager inputManager;
     private TileMapRenderer renderer;
     private GameAction moveLeft;
@@ -372,6 +381,6 @@ public class GameManager extends GameCore {
     private GameAction passGoal;
     private GameAction reset;
     private GameAction pause;
-    
+    private GameAction stopMusic;
     
 }
