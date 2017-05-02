@@ -1,0 +1,45 @@
+# Map file for tile-based game
+# (Lines that start with '#' are comments)
+# The tiles are:
+#   (Space) Empty tile
+#   I       Terrain
+#   @     Player
+#   !        Lightning
+#   *       Goal
+#   ^       Spike (up)
+#   V       Spike (down)
+#   <       Spike (left)
+#   >       Spike (right)
+#   1       Saw (Full)
+#   2       Saw (Half/Up)
+#   3       Saw (Half/Down)
+#   4       Saw (Half/Left)
+#   5       Saw (Half/Right)
+#   6       Saw Handle(Up/Down)
+#   7       Saw Handle(Left/Right)
+# Teaching Wall Jump Level
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+IVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVI 
+I                                                  I
+I                                                  I
+I                                                  I
+I                                                  I                           
+I                                                  I
+I                                                  I
+I     II                                    II     I
+I     II                                    II     I
+I     II            ^^^^^^^^^^^             II     I
+I     II         IIIIIIIIIIIIIIIII          II     I
+I     II                                    II     I
+I     II                 *                  II     I
+I     II         IIIIIIIIIIIIIIIII          II     I
+I     II          VVVVVVVVVVVVVVV           II     I
+I     II                                    II     I
+I     II                                    II     I
+I     II                                    II     I
+I     II                                    II     I
+I     II                                    II     I
+I     II                                    II     I
+I     II                                    II     I
+I^^^^^II            ^^   @   ^^             II^^^^^I 
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

@@ -12,7 +12,7 @@ public abstract class PowerUp extends Sprite {
         super(anim);
     }
 
-
+    @Override
     public Object clone() {
         // use reflection to create the correct subclass
         Constructor constructor = getClass().getConstructors()[0];

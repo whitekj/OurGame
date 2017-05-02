@@ -33,7 +33,8 @@ public class Player extends Sprite {
 		//Wall jump mechanics
 		if (!onGround && getVelocityY() >= 0) {
 			onWall = true;
-			setVelocityY(CLING_SPEED);
+			if (canWallJump) 
+				setVelocityY(CLING_SPEED);
 		}
 	}
 
@@ -168,7 +169,7 @@ public class Player extends Sprite {
 		canDoubleJump = b;
 	}
 	
-	public boolean getGotPowerUp() {
+	public boolean gotPowerUp() {
 		return gotPowerUp;
 	}
 	
@@ -199,7 +200,7 @@ public class Player extends Sprite {
 		}
 	}
 
-
+	@Override
 	public void update(long elapsedTime) {
 		// select the correct Animation
 		Animation newAnim = anim;

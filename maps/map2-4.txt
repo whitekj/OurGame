@@ -17,23 +17,33 @@
 #   5       Saw (Half/Right)
 #   6       Saw Handle(Up/Down)
 #   7       Saw Handle(Left/Right)
-                             
+^
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I                             
 I                                                  
-I                                    I      I     *
-I                          III                    II
+I                                   I        I    *
+I                         III                    III
 I                                                 <I
-I                                                 <I 
-I   II       II      II                           <IIII
+I                                                 <I^^^
+I  II      II       II                            <IIII
 I                                                     I
 I                                                     I
-I                                                 II^^I
+I                                                  I^^I
 IIIIIIIIIIIIIIIIIIII                               IIII
 IVVVVVVVVVVVVVVVVVII                               I
 I                 II                           IIIII
-I                 II                               I
-I          I      VV                               I
+I                 II                              <I
+I          I      VV                              <I
 I                                         IIIIIIIIII
 I      I                          I                I
-I      I          II     II                       4I
-I @  2 I^^   ^^   1      II   2   2   2            I 
+I @    I          II     II                       4I
+I    2 I^^   ^^   1      II   2   2   2            I 
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII

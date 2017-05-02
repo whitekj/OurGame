@@ -148,12 +148,6 @@ public class TileMapRenderer {
             }
         }
 
-        // draw player
-        g.drawImage(player.getImage(),
-            Math.round(player.getX()) + offsetX,
-            Math.round(player.getY()) + offSetY,
-            null);
-
         // draw sprites
         Iterator i = map.getSprites();
         while (i.hasNext()) {
@@ -162,6 +156,12 @@ public class TileMapRenderer {
             int y = Math.round(sprite.getY()) + offSetY;
             g.drawImage(sprite.getImage(), x, y, null);
         }
+        
+     // draw player
+        g.drawImage(player.getImage(),
+            Math.round(player.getX()) + offsetX,
+            Math.round(player.getY()) + offSetY,
+            null);
         
         //end of changes to offSetY
     }

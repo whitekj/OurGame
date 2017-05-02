@@ -10,6 +10,7 @@ import com.brackeen.javagamebook.sound.*;
 import com.brackeen.javagamebook.input.*;
 import com.brackeen.javagamebook.test.GameCore;
 import com.brackeen.javagamebook.tilegame.sprites.*;
+import com.brackeen.javagamebook.tilegame.sprites.PowerUp.Lightning;
 
 /**
     GameManager manages all parts of the game.
@@ -34,7 +35,7 @@ public class GameManager extends GameCore {
         renderer = new TileMapRenderer();
 
         // load first map
-        map = resourceManager.loadNextMap(false);
+        map = resourceManager.loadFirstMap();
 
         // load sounds
         soundManager = new SoundManager(PLAYBACK_FORMAT);
@@ -140,9 +141,7 @@ public class GameManager extends GameCore {
         Sprite's X or Y should be changed, not both. Returns null
         if no collision is detected.
     */
-    public Point getTileCollision(Sprite sprite,
-        float newX, float newY)
-    {
+    public Point getTileCollision(Sprite sprite, float newX, float newY) {
         float fromX = Math.min(sprite.getX(), newX);
         float fromY = Math.min(sprite.getY(), newY);
         float toX = Math.max(sprite.getX(), newX);
@@ -217,7 +216,7 @@ public class GameManager extends GameCore {
     public void update(long elapsedTime) {
         Player player = (Player)map.getPlayer();
         if (player.getState() == Player.STATE_DEAD) {
-            map = resourceManager.reloadMap();
+            map = resourceManager.reloadMap(player.gotPowerUp());
             return;
         }
         // get keyboard/mouse input
@@ -226,6 +225,12 @@ public class GameManager extends GameCore {
         	updateWorld(player);
         	updatePlayer(player, elapsedTime);
         	player.update(elapsedTime);
+        	// update other sprites
+            Iterator<Sprite> i = map.getSprites();
+            while (i.hasNext()) {
+                Sprite sprite = (Sprite)i.next();
+                sprite.update(elapsedTime);
+            }
         }
     }
     
@@ -320,6 +325,9 @@ public class GameManager extends GameCore {
         }
     	if (collisionSprite instanceof Saw) {
     		player.setState(Player.STATE_DYING);
+        }
+    	if (collisionSprite instanceof Pole) {
+    		//do nothing
         }
     	if (collisionSprite instanceof PowerUp) {
             acquirePowerUp(player,(PowerUp)collisionSprite);
