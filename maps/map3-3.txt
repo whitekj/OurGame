@@ -4,33 +4,15 @@
 
 
 
-
-
-  @                  I                                                                  I    
-                     I         1                                                        I
-IIIIIIIII     I      I    IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII    I
-              I      I    I                                                        I    I
-              I      I    I                                                        I    I
-    IIIIIIIIIII      I    I  I       I       I        I       I         I          IIIIII
-    I                     I                                             I
-    I                     I                                             I
-    IIIIIIIIIIII     IIIIII                                        IIIIIIIIIIIIIIIIIIIIII
-               I     I         IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII                           
-               I     I         I                                   I                           
-IIIIIIIIII     I     IIIII    II                                   I                           
-               I                    IIIIIIIIIIIIIIIII              I       I            I      
-               I                    I                              I                           
-IIIIIIIIIIIIIIII     IIIIIIIIII     I                              I                           
-                              I     IIIIIIIIIIIIIIIIIIIIIIIII      I    *                      
-                              I                             I      I   III              I      
-IIIIII     IIIIIIIIIIIIII     I                             I      I                           
-           I                  IIIIIIIIIIIIIIIIIIIIIIIIIII   I      IIIIIIIIIIIIIII             
-           I                                            I   I                    I             
-           I                                            I   I                    I      I      
-           IIIIIIIIIIIIIIIIIIII       I        I        I   I      I     I       I           
-
-
-
+  @    
+     ^     ^^^^^^^^^
+IIIIII     IIIIIIIII                   *  
+          I              ^^^^^      <IIIII
+           I             IIIII              
+                           V            
+                                  ^                         
+                 IIIIIII       IIII>
+                 VVVVVV          V 
 
 
 
@@ -38,4 +20,4 @@ IIIIII     IIIIIIIIIIIIII     I                             I      I
 
 
   
-PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP

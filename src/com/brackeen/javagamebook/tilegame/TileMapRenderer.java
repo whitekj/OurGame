@@ -111,17 +111,13 @@ public class TileMapRenderer {
 			g.drawImage(background, x, y, null);
 		}
 
-		/**
-
-        if(drawCut){
-            //This 13600 is where I am curious whether your systems will also end the cutscene at the correct time
-           // I currently have the method that displays the image print out how many times it has been called, so if you exit the
-          //game when cutscene over should display how many times method called.
-            drawGif(13600, g, screenWidth, screenHeight);
-
-        }else
-		 */
-		{
+		
+		long currentTime = System.currentTimeMillis();
+        if((currentTime-eTime1)<timesToRun[index]){
+            drawGif(g, screenWidth, screenHeight);
+        }else{
+		 
+		
 			//All code for drawing sprites, tiles and player surrounded in else statement so not drawn over gif while gif being displayed
 			// draw the visible tiles
 			int firstTileX = pixelsToTiles(-offsetX);
@@ -187,30 +183,25 @@ public class TileMapRenderer {
 		}
 	}
 
-	/**
+	
 
-    public void setDrawIcon(String numScene){
-        drawCut=true;
+     public void setDrawIcon(String numScene){
         icon = new ImageIcon("images/cutscene" +numScene+ ".gif").getImage();
+        eTime1=System.currentTimeMillis();
+        index=Integer.parseInt(numScene);
+    }
+     
+    private void drawGif(Graphics2D g, int screenWidth, int screenHeight){
+        g.drawImage(icon, 0, 0, screenWidth, screenHeight, null);
     }
 
-
-    public void drawGif(int time, Graphics2D g, int screenWidth, int screenHeight){
-        if(numTimesCalled<time){
-            g.drawImage(icon, 0, 0, screenWidth, screenHeight, null);
-            numTimesCalled++;
-            System.out.println(numTimesCalled);
-        }else{
-            drawCut=false;
-        }
-    }
-
-	 */
+	 
 
 	private static final int TILE_SIZE = 64;
 	private static final int TILE_SIZE_BITS = 6;
 	private Image background;
-	private boolean drawCut=false;
-	private Image icon;
-	private int numTimesCalled=0;
+	private long eTime1;
+    private int index;
+    private int[] timesToRun = {11300, 8458, 7924, 11500};
+    private Image icon;
 }

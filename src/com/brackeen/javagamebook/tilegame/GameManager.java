@@ -48,6 +48,9 @@ public class GameManager extends GameCore {
 		Sequence sequence =
 				midiPlayer.getSequence("sounds/title.mid");
 		midiPlayer.play(sequence, true);
+		//Start cutscene
+		if (resourceManager.getWorld() == 1 && resourceManager.getMap() == 1)
+			renderer.setDrawIcon("0");
 
 	}
 
@@ -116,7 +119,7 @@ public class GameManager extends GameCore {
 				state = STATE.MENU;
 			}
 		}
-
+		
 		else if (state == STATE.GAME) {
 
 			if (exit.isPressed()) {
@@ -399,12 +402,16 @@ public class GameManager extends GameCore {
 		else if (powerUp instanceof PowerUp.Goal) {
 			if(passGoal.isPressed()){
 				map.removeSprite(powerUp);
-				/**
-                if(resourceManager.getCurrMap()==5 && gotPowerUp) {   
-                	renderer.setDrawIcon(Integer.toString(resourceManager.getCurrWorld()));
 
-                }
-				 */
+				if(resourceManager.getMap()==5 && gotPowerUp){
+					renderer.setDrawIcon(Integer.toString(resourceManager.getWorld()));
+				}
+				else if (resourceManager.getMap()==5 && resourceManager.getWorld()==3) {
+					renderer.setDrawIcon("3");
+					state = STATE.MENU;
+					
+				}
+
 				map = resourceManager.loadNextMap(gotPowerUp);
 			}
 		}
@@ -440,8 +447,6 @@ public class GameManager extends GameCore {
 	private enum STATE {
 		GAME,
 		MENU,
-		INSTRUCTION,
-		PAUSED
+		INSTRUCTION
 	};
-
 }

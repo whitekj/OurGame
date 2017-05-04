@@ -1,50 +1,34 @@
-# Map file for tile-based game
-# (Lines that start with '#' are comments)
-# The tiles are:
-#   (Space) Empty tile
-#   I       Terrain
-#   @     Player
-#   !        Lightning
-#   *       Goal
-#   ^       Spike (up)
-#   V       Spike (down)
-#   <       Spike (left)
-#   >       Spike (right)
-#   1       Saw (Full)
-#   2       Saw (Half/Up)
-#   3       Saw (Half/Down)
-#   4       Saw (Half/Left)
-#   5       Saw (Half/Right)
-#   6       Saw Handle(Up/Down)
-#   7       Saw Handle(Left/Right)
-     
-I             I                                  ^^^^^ 
-                                                 IIIII
-                                                 I                   I
-    I                        IIIII               I
-                                                 I                                                                                               *
-                                                 I      III                  IIII          I         II                             I            I          
-                                                 I                                          
-                                                 I                                          
-                                                 I                                                      I
-    I                                            I 
-                                                 I                                     
-                                                                                                                                    I 
-                                                                                                         I
-                                                 I                         
-          I                                      I                           
-                                                 I      III            II                                 
-                                                 I                                                                                   
-                                                                                                          III             I         I 
-    @
-  IIIII
 
 
 
 
 
 
+                               ^
+                             III ^ ^ ^ ^               ^
+                I>           III I I I I III           I           
+                V                          I>          I    
+                                           I           I    
+                                           I           I         
+                                           I    ^^^^^^^I         
+                                           I    IIIIIIII        
+               <I                          I           I                       
+                V                          I           I                      
+                                           I           I         
+                                           I           I         
+                                           I^^^^^^^    I        
+                                           IIIIIIII    I         
+                I>                         I           I                               
+                V                          I           I                                   
+                                           I           I                 
+                                           I           I                                      
+    @                                      I           I         
+                                           I     ^^^^^^I        
+  IIIII        <I>                         I     IIIIIII                      
+                V                          I     I
+                                           I     I
+                                           I  *  I
+                                           IIIIIII
 
 
-
-PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
