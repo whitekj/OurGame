@@ -195,6 +195,9 @@ public class Player extends Sprite {
 
 	@Override
 	public void update(long elapsedTime) {
+		if (onGround) {
+			doubleJumped = false;
+		}
 		// select the correct Animation
 		Animation newAnim = anim;
 		if (getVelocityX() == 0) {
@@ -257,7 +260,7 @@ public class Player extends Sprite {
 	private static final float JUMP_SPEED = -.90f;
 	private static final float WALLJUMP_SPEED = -.80f;    
 	private static final float DOUBLEJUMP_SPEED = -.60f;
-	private static final float CLING_SPEED = .01f;
+	private static final float CLING_SPEED = .04f;
 	private static final int DIE_TIME = 1000;
 	public static final int STATE_NORMAL = 0;
 	public static final int STATE_DYING = 1;

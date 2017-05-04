@@ -1,40 +1,68 @@
-# Map file for tile-based game
-# (Lines that start with '#' are comments)
-# The tiles are:
-#   (Space) Empty tile
-#   I       Terrain
-#   @     Player
-#   !        Lightning
-#   *       Goal
-#   ^       Spike (up)
-#   V       Spike (down)
-#   <       Spike (left)
-#   >       Spike (right)
-#   1       Saw (Full)
-#   2       Saw (Half/Up)
-#   3       Saw (Half/Down)
-#   4       Saw (Half/Left)
-#   5       Saw (Half/Right)
-#   6       Saw Handle(Up/Down)
-#   7       Saw Handle(Left/Right)
+                                                                                      
 
-     IIIIIIIIIIIIII      IIIIIIIIIIIIIIIIIIIII           
-I    IIIIIIIIIIIIII      IIIIIIIIIIIIIIIIIIIII     I
-I                <I      I>                        I
-I                <I  *   I>                        I
-I                 IIIIIIII                         I
-I                 VVVVVVVV                         I
-I>          I                    I                <I
-I>          V                    V                <I
-I>                                      II        <I
-I>                                                <I
-I>          I                    I                <I
-I>                                                <I
-I                                                  I
-IIIIIIIIIII          IIIIIII            II         I
-I V                                   17II       17I
-I                                     17II         I
-I        II                           17II   IIIIIII
-I        II      II           II      17II         I
-I  ^   ^ II      II ^^  @  ^^ II      17II      ^  I 
-IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
+
+
+   
+IIIIIII
+I VVV I
+I> @ <I
+I>   <I
+I>   <I
+I>   <I                                                                                      
+I>   <I                                                                                      
+I>   <I                                                                                      
+I>   <I                                                                                      
+I>   <I                                                                                      
+I>   <I                                                                                      
+I>   <I                                                                                      
+I>   <I                                                                                                     ^^                                                                                                                                                             
+I>   <I                                                                                                    <II                                                                        
+I>   <I                                                                                                    <II
+I>   <I                                                                                                    <II
+I>   <I                                                                                                    <II
+I>   <I                                                                                                    <II
+I>   <I                                                                                       ^^   II      <II
+I>   <I                                                                                      <II>  II      <II   
+I>   <I                                                                                      <II>  II      <II    
+I>   <I                                                                                      <II>  II      <II    
+I>   <I                                                                                      <II>  II      <II    
+I>   <I                                                                                      <II>  II      <II   
+I>   <I                                                                                      <II>  II      <II    
+I>   <I                                                                                      <II>  II      <II    
+I>   <I                                                                                      <II>  II      <II    
+I>   <I                                                                                       VV   II      <II                      
+I>                                       I                                                         II      <II
+I>       ^ ^ ^ ^ ^ ^ ^ ^ ^ ^             V        ^ ^ ^ ^ ^ ^ ^ ^ ^ ^                              II      <II
+IIIIIIII I I I I I I I I I I IIIIIIIIII     IIIII I I I I I I I I I I                              II      <II
+                                     <I     I                                                     II       <II                                                                                      
+                                     <I     I                                                    II        <II                                                                 
+   *                                 <I     I                                                   II         <II                                                                                         
+  III                                <I     I                                                  II          <II                                                                                            
+        ^            ^       ^       <I     I                                                 II           <II                                                                                                     
+       <I>          <I>     <I>      <I     I                                                II            <II                                                                
+I                    V                I     I                                               II             <II                                                                  
+                                                                                           II              <II                                                                                                                                 
+                                                                                          II               <II                                                                       
+     ^  ^  ^  ^^^^^^   ^  ^  ^  ^ ^ ^           ^   ^   ^   ^   ^   ^   ^   ^   ^   ^    II                <II                                                                                                   
+  IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII                 <II          
+  V V V V V V V V V V V V V V V V V V                                                                      <II                                                          
+                                                                                                           <II                                                                                              
+                                                                                                           <II      
+                                                                                                           <II                                                  
+                                              ^^^                 ^^                  ^^^                  <II                                                                                                                                  
+IIIIII       I       I       I       <I>      IIIIII            IIIIII             IIIIII                  <II
+VVVVVV       V       V       V        V                                      
+                                                                                      
+
+
+
+
+
+
+
+
+
+
+                                                                                                                                                     
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP                                              

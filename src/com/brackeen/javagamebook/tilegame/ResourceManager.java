@@ -89,7 +89,8 @@ public class ResourceManager {
         	if (currentMap == numMaps) {
             	if (currentWorld == numWorlds) {
             		//Done with game
-            		System.exit(0);
+            		currentWorld = 1;
+            		currentMap = 1;
             	}
             	else {
             		currentMap = 1;
