@@ -3,7 +3,10 @@ package com.brackeen.javagamebook.tilegame;
 import java.awt.*;
 import java.util.Iterator;
 
+import javax.swing.ImageIcon;
+
 import com.brackeen.javagamebook.graphics.Sprite;
+import com.brackeen.javagamebook.tilegame.sprites.Pole;
 
 /**
     The TileMapRenderer class draws a TileMap on the screen.
@@ -18,152 +21,196 @@ import com.brackeen.javagamebook.graphics.Sprite;
     to tile positions, and vice-versa.
 
     <p>This TileMapRender uses a tile size of 64.
-*/
+ */
 public class TileMapRenderer {
 
-    private static final int TILE_SIZE = 64;
-    // the size in bits of the tile
-    // Math.pow(2, TILE_SIZE_BITS) == TILE_SIZE
-    private static final int TILE_SIZE_BITS = 6;
-
-    private Image background;
-
-    /**
+	/**
         Converts a pixel position to a tile position.
-    */
-    public static int pixelsToTiles(float pixels) {
-        return pixelsToTiles(Math.round(pixels));
-    }
+	 */
+	public static int pixelsToTiles(float pixels) {
+		return pixelsToTiles(Math.round(pixels));
+	}
 
 
-    /**
+	/**
         Converts a pixel position to a tile position.
-    */
-    public static int pixelsToTiles(int pixels) {
-        // use shifting to get correct values for negative pixels
-        return pixels >> TILE_SIZE_BITS;
-
-        // or, for tile sizes that aren't a power of two,
-        // use the floor function:
-        //return (int)Math.floor((float)pixels / TILE_SIZE);
-    }
+	 */
+	public static int pixelsToTiles(int pixels) {
+		return pixels >> TILE_SIZE_BITS;
+	}
 
 
-    /**
+	/**
         Converts a tile position to a pixel position.
-    */
-    public static int tilesToPixels(int numTiles) {
-        // no real reason to use shifting here.
-        // it's slighty faster, but doesn't add up to much
-        // on modern processors.
-        return numTiles << TILE_SIZE_BITS;
-
-        // use this if the tile size isn't a power of 2:
-        //return numTiles * TILE_SIZE;
-    }
+	 */
+	public static int tilesToPixels(int numTiles) {
+		return numTiles << TILE_SIZE_BITS;
+	}
 
 
-    /**
+	/**
         Sets the background to draw.
-    */
-    public void setBackground(Image background) {
-        this.background = background;
-    }
+	 */
+	public void setBackground(Image background) {
+		this.background = background;
+	}
 
 
-    /**
+	/**
         Draws the specified TileMap.
-    */
-    public void draw(Graphics2D g, TileMap map,
-        int screenWidth, int screenHeight)
-    {
-        Sprite player = map.getPlayer();
-        int mapWidth = tilesToPixels(map.getWidth());
-        
-        //new
-        int mapHeight = tilesToPixels(map.getHeight());
-        //end new
+	 */
+	public void draw(Graphics2D g, TileMap map,
+			int screenWidth, int screenHeight, boolean drawPlayer)
+	{
+		Sprite player = map.getPlayer();
+		int mapWidth = tilesToPixels(map.getWidth());
 
-        // get the scrolling position of the map
-        // based on player's position
-        int offsetX = screenWidth / 2 -
-            Math.round(player.getX()) - TILE_SIZE;
-        offsetX = Math.min(offsetX, 0);
-        offsetX = Math.max(offsetX, screenWidth - mapWidth);
+		//new
+		int mapHeight = tilesToPixels(map.getHeight());
+		//end new
 
-        //new 
-        int offSetY = screenHeight / 2 - 
-        		Math.round(player.getY()) - TILE_SIZE;
-        offSetY= Math.min(offSetY, 0);
-        offSetY= Math.max(offSetY, screenHeight - mapHeight);
-        //end new
-        
-        // get the y offset to draw all sprites and tiles
-        int offsetY = screenHeight -
-            tilesToPixels(map.getHeight());
+		// get the scrolling position of the map
+		// based on player's position
+		int offsetX = screenWidth / 2 -
+				Math.round(player.getX()) - TILE_SIZE;
+		offsetX = Math.min(offsetX, 0);
+		offsetX = Math.max(offsetX, screenWidth - mapWidth);
 
-        // draw black background, if needed
-        if (background == null ||
-            screenHeight > background.getHeight(null))
-        {
-            g.setColor(Color.black);
-            g.fillRect(0, 0, screenWidth, screenHeight);
-        }
+		//new 
+		int offSetY = screenHeight / 2 - 
+				Math.round(player.getY()) - TILE_SIZE;
+		offSetY= Math.min(offSetY, 0);
+		offSetY= Math.max(offSetY, screenHeight - mapHeight);
+		//end new
 
-        // draw parallax background image
-        if (background != null) {
-            int x = offsetX *
-                (screenWidth - background.getWidth(null)) /
-                (screenWidth - mapWidth);
-            //int y = screenHeight - background.getHeight(null);
-            
-            //new
-            int y = offSetY *
-            		(screenHeight - background.getHeight(null)) /
-            		(screenHeight - mapHeight);
-            //endnew
-            
-            g.drawImage(background, x, y, null);
-        }
-        
-        /*new
-         * Below the offsetY is changed to offSetY for parralax upwards
-         * 
-         */
-        
-        
-        // draw the visible tiles
-        int firstTileX = pixelsToTiles(-offsetX);
-        int lastTileX = firstTileX +
-            pixelsToTiles(screenWidth) + 1;
-        for (int y=0; y<map.getHeight(); y++) {
-            for (int x=firstTileX; x <= lastTileX; x++) {
-                Image image = map.getTile(x, y);
-                if (image != null) {
-                    g.drawImage(image,
-                        tilesToPixels(x) + offsetX,
-                        tilesToPixels(y) + offSetY,
-                        null);
-                }
-            }
-        }
+		// get the y offset to draw all sprites and tiles
+		int offsetY = screenHeight -
+				tilesToPixels(map.getHeight());
 
-        // draw sprites
-        Iterator i = map.getSprites();
-        while (i.hasNext()) {
-            Sprite sprite = (Sprite)i.next();
-            int x = Math.round(sprite.getX()) + offsetX;
-            int y = Math.round(sprite.getY()) + offSetY;
-            g.drawImage(sprite.getImage(), x, y, null);
-        }
-        
-     // draw player
-        g.drawImage(player.getImage(),
-            Math.round(player.getX()) + offsetX,
-            Math.round(player.getY()) + offSetY,
-            null);
-        
-        //end of changes to offSetY
+		// draw black background, if needed
+		if (background == null ||
+				screenHeight > background.getHeight(null))
+		{
+			g.setColor(Color.black);
+			g.fillRect(0, 0, screenWidth, screenHeight);
+		}
+
+		// draw parallax background image
+		if (background != null) {
+			int x = offsetX *
+					(screenWidth - background.getWidth(null)) /
+					(screenWidth - mapWidth);
+			//int y = screenHeight - background.getHeight(null);
+
+			//new
+			int y = offSetY *
+					(screenHeight - background.getHeight(null)) /
+					(screenHeight - mapHeight);
+			//endnew
+
+			g.drawImage(background, x, y, null);
+		}
+
+		/**
+
+        if(drawCut){
+            //This 13600 is where I am curious whether your systems will also end the cutscene at the correct time
+           // I currently have the method that displays the image print out how many times it has been called, so if you exit the
+          //game when cutscene over should display how many times method called.
+            drawGif(13600, g, screenWidth, screenHeight);
+
+        }else
+		 */
+		{
+			//All code for drawing sprites, tiles and player surrounded in else statement so not drawn over gif while gif being displayed
+			// draw the visible tiles
+			int firstTileX = pixelsToTiles(-offsetX);
+			int lastTileX = firstTileX +
+					pixelsToTiles(screenWidth) + 1;
+			for (int y=0; y<map.getHeight(); y++) {
+				for (int x=firstTileX; x <= lastTileX; x++) {
+					Image image = map.getTile(x, y);
+					if (image != null) {
+						g.drawImage(image,
+								tilesToPixels(x) + offsetX,
+								tilesToPixels(y) + offSetY,
+								null);
+					}
+				}
+			}
+
+			//draw poles first 
+			Iterator z = map.getSprites();
+			while (z.hasNext()) {
+				Sprite s = (Sprite)z.next();
+				if(s instanceof Pole){
+					//System.out.println("I Found a pole");
+					int x = Math.round(s.getX()) + offsetX;
+					int y = Math.round(s.getY()) + offSetY;
+					g.drawImage(s.getImage(), x, y, null);
+				}
+			}
+
+			//draw other sprites
+			Iterator i = map.getSprites();
+			while (i.hasNext()) {
+				Sprite sprite = (Sprite)i.next();
+				if (!(sprite instanceof Pole)) {
+					int x = Math.round(sprite.getX()) + offsetX;
+					int y = Math.round(sprite.getY()) + offSetY;
+					g.drawImage(sprite.getImage(), x, y, null);
+				}
+			}
+
+			//draw player
+			if (drawPlayer) {
+			g.drawImage(player.getImage(),
+					Math.round(player.getX()) + offsetX,
+					Math.round(player.getY()) + offSetY,
+					null);
+			}
+		}
+	}
+
+	/**
+	 * Draws image
+	 */
+
+	public void drawImg(Graphics2D g, Image img, int screenWidth, int screenHeight) {
+		g.drawImage(img, screenWidth, screenHeight, null);
+		if (background == null || screenHeight > background.getHeight(null)) {
+			g.setColor(Color.black);
+			g.fillRect(0, 0, screenWidth, screenHeight);
+		}
+		if (background != null) {
+			g.drawImage(background, screenWidth, screenHeight, null);
+		}
+	}
+
+	/**
+
+    public void setDrawIcon(String numScene){
+        drawCut=true;
+        icon = new ImageIcon("images/cutscene" +numScene+ ".gif").getImage();
     }
 
+
+    public void drawGif(int time, Graphics2D g, int screenWidth, int screenHeight){
+        if(numTimesCalled<time){
+            g.drawImage(icon, 0, 0, screenWidth, screenHeight, null);
+            numTimesCalled++;
+            System.out.println(numTimesCalled);
+        }else{
+            drawCut=false;
+        }
+    }
+
+	 */
+
+	private static final int TILE_SIZE = 64;
+	private static final int TILE_SIZE_BITS = 6;
+	private Image background;
+	private boolean drawCut=false;
+	private Image icon;
+	private int numTimesCalled=0;
 }
