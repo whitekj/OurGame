@@ -40,6 +40,9 @@ public class TileMap {
         Gets the height of this TileMap (number of tiles down).
     */
     public int getHeight() {
+    	if (tiles.length<=0) {
+    		return 0;
+    	}
         return tiles[0].length;
     }
 

@@ -17,39 +17,6 @@ import com.brackeen.javagamebook.tilegame.sprites.*;
 */
 public class ResourceManager {
 
-    private ArrayList<Image> tiles;
-    private int currentMap;
-    private int currentWorld;
-    private int numMaps; //number of maps per world
-    private int numWorlds;
-    private GraphicsConfiguration gc;
-
-    // host sprites used for cloning
-    private Sprite playerSprite;
-    private Sprite lightningSprite;
-    private Sprite goalSprite;
-    private Sprite spikeUp;
-    private Sprite spikeDown;
-    private Sprite spikeLeft;
-    private Sprite spikeRight;
-    private Sprite spikeUpBloody;
-    private Sprite spikeDownBloody;
-    private Sprite spikeLeftBloody;
-    private Sprite spikeRightBloody;
-    private Sprite pit;
-    private Sprite sawFull;
-    private Sprite sawFullBloody;
-    private Sprite sawHalfUp;
-    private Sprite sawHalfDown;
-    private Sprite sawHalfLeft;
-    private Sprite sawHalfRight;
-    private Sprite sawHalfUpBloody;
-    private Sprite sawHalfDownBloody;
-    private Sprite sawHalfLeftBloody;
-    private Sprite sawHalfRightBloody;
-    private Sprite sawPole;
-    private Sprite sawPole2;
-
     /**
         Creates a new ResourceManager with the specified
         GraphicsConfiguration.
@@ -74,16 +41,13 @@ public class ResourceManager {
         return new ImageIcon(filename).getImage();
     }
 
-
     public Image getMirrorImage(Image image) {
         return getScaledImage(image, -1, 1);
     }
 
-
     public Image getFlippedImage(Image image) {
         return getScaledImage(image, 1, -1);
     }
-
 
     private Image getScaledImage(Image image, float x, float y) {
 
@@ -153,6 +117,17 @@ public class ResourceManager {
         try {
             return loadMap(
             	"maps/map" + currentWorld + "-" + currentMap + ".txt", !gotPowerUp);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public TileMap loadBlankMap() {
+    	try {
+            return loadMap(
+            	"maps/blank.txt", false);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -284,23 +259,19 @@ public class ResourceManager {
 
 
     private void addSprite(TileMap map,
-        Sprite hostSprite, int tileX, int tileY)
-    {
+        Sprite hostSprite, int tileX, int tileY) {
         if (hostSprite != null) {
             // clone the sprite from the "host"
             Sprite sprite = (Sprite)hostSprite.clone();
-
             // center the sprite
             sprite.setX(
                 TileMapRenderer.tilesToPixels(tileX) +
                 (TileMapRenderer.tilesToPixels(1) -
                 sprite.getWidth()) / 2);
-
             // bottom-justify the sprite
             sprite.setY(
                 TileMapRenderer.tilesToPixels(tileY + 1) -
                 sprite.getHeight());
-
             // add it to the map
             map.addSprite(sprite);
         }
@@ -308,11 +279,18 @@ public class ResourceManager {
     
     /**
      * Returns the current world
-     * @return current world
      */
     
     public int getWorld() {
     	return currentWorld;
+    }
+    
+    /**
+     * Returns the current map
+     */
+    
+    public int getMap(){
+        return currentMap;
     }
 
 
@@ -430,11 +408,10 @@ public class ResourceManager {
         sawHalfRightBloody = new Saw(createStaticAnim(images[1][n++]));
         //Saw pole
         sawPole = new Pole(createStaticAnim(images[0][n]));
-        sawPole2 = new Pole(createStaticAnim(images[2][n]));
+        sawPole2 = new Pole(createStaticAnim(images[2][n++]));
         //Door sprites
-        Animation goalAnim = createPowerUpAnim(images[0][n]);
+        Animation goalAnim = createPowerUpAnim(images[0][n++]);
         goalSprite = new PowerUp.Goal(goalAnim);
-        n++;
         //Lightning sprites
         Animation lightningAnim = createPowerUpAnim(images[0][n]); 
         lightningSprite = new PowerUp.Lightning(lightningAnim);
@@ -454,7 +431,6 @@ public class ResourceManager {
         anim.addFrame(img, 2000);
         return anim;
     }
-
 
     private Animation createSawAnim(Image img1, Image img2, Image img3, Image img4, 
     		Image img5, Image img6, Image img7, Image img8) {
@@ -489,4 +465,34 @@ public class ResourceManager {
         anim.addFrame(loadImage("lightning.png"), 1000);
         lightningSprite = new PowerUp.Lightning(anim);
     }
+    private ArrayList<Image> tiles;
+    private int currentMap;
+    private int currentWorld;
+    private int numMaps; //number of maps per world
+    private int numWorlds;
+    private GraphicsConfiguration gc;
+    private Sprite playerSprite;
+    private Sprite lightningSprite;
+    private Sprite goalSprite;
+    private Sprite spikeUp;
+    private Sprite spikeDown;
+    private Sprite spikeLeft;
+    private Sprite spikeRight;
+    private Sprite spikeUpBloody;
+    private Sprite spikeDownBloody;
+    private Sprite spikeLeftBloody;
+    private Sprite spikeRightBloody;
+    private Sprite pit;
+    private Sprite sawFull;
+    private Sprite sawFullBloody;
+    private Sprite sawHalfUp;
+    private Sprite sawHalfDown;
+    private Sprite sawHalfLeft;
+    private Sprite sawHalfRight;
+    private Sprite sawHalfUpBloody;
+    private Sprite sawHalfDownBloody;
+    private Sprite sawHalfLeftBloody;
+    private Sprite sawHalfRightBloody;
+    private Sprite sawPole;
+    private Sprite sawPole2;
 }
