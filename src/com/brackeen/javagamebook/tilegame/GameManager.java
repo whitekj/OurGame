@@ -172,7 +172,12 @@ public class GameManager extends GameCore {
 			return;
 		}
 		// get keyboard/mouse input
-		checkInput(elapsedTime);
+		if(!renderer.getRealCutscene()){
+            checkInput(elapsedTime);
+        }
+        if(renderer.getRealCutscene()){
+            inputManager.resetAllGameActions();
+        }
 		if (state == STATE.GAME && !paused) {
 			updateWorld(player);
 			updatePlayer(player, elapsedTime);
@@ -183,6 +188,7 @@ public class GameManager extends GameCore {
 				Sprite sprite = (Sprite)i.next();
 				sprite.update(elapsedTime);
 			}
+			
 		}
 	}
 
@@ -205,6 +211,14 @@ public class GameManager extends GameCore {
 			renderer.draw(g, blankMap,
 					screen.getWidth(), screen.getHeight(), false);
 		}
+		else if (state == STATE.NOTHING) {
+            renderer.setBackground(null);
+            renderer.draw(g, blankMap,
+                    screen.getWidth(), screen.getHeight(), false);
+            if(renderer.getRealCutscene()){
+                state=STATE.MENU;
+            }
+        }
 	}
 
 	/**
@@ -443,10 +457,11 @@ public class GameManager extends GameCore {
 	private GameAction stopMusic;
 	private GameAction help;
 	private TileMap blankMap;
-	private STATE state = STATE.MENU;
+	private STATE state = STATE.NOTHING;
 	private enum STATE {
 		GAME,
 		MENU,
-		INSTRUCTION
+		INSTRUCTION,
+		NOTHING
 	};
 }
