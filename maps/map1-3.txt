@@ -23,12 +23,12 @@
 
 
       
-                *
-               III
+                   *
+                  III
                          
-                        I
+                         I
                         
- @    I      I      I
-      I      I      I
-      I  ^^  I  ^^  I
-IIIIIIIIIIIIIIIIIIIIIIIII
+ @    I       I       I
+      I       I       I
+      I   ^   I   ^   I
+IIIIIIIIIIIIIIIIIIIIIIIIII

@@ -113,9 +113,10 @@ public class TileMapRenderer {
 
 		
 		long currentTime = System.currentTimeMillis();
-        if((currentTime-eTime1)<timesToRun[index]){
+		if(getCutScene(currentTime)){
             drawGif(g, screenWidth, screenHeight);
         }else{
+
 		 
 		
 			//All code for drawing sprites, tiles and player surrounded in else statement so not drawn over gif while gif being displayed
@@ -194,6 +195,22 @@ public class TileMapRenderer {
     private void drawGif(Graphics2D g, int screenWidth, int screenHeight){
         g.drawImage(icon, 0, 0, screenWidth, screenHeight, null);
     }
+    
+    public boolean getCutScene(long currentTime){
+        if((currentTime-eTime1)<timesToRun[index]){
+            this.cutScene=true;
+        }else{
+            this.cutScene=false;
+        }
+        return cutScene;
+    }
+    
+    public boolean getRealCutscene(){
+        return cutScene;
+    }
+
+
+
 
 	 
 
@@ -204,4 +221,5 @@ public class TileMapRenderer {
     private int index;
     private int[] timesToRun = {11300, 8458, 7924, 11500};
     private Image icon;
+    private boolean cutScene =false;
 }
